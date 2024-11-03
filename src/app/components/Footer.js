@@ -9,11 +9,15 @@ function Footer() {
     <Box
       component="footer"
       sx={{
-        py: 2,
-        px: 2,
+        py: 3,
+        px: 3,
         mt: "auto",
         backgroundColor: "#2196f3",
         color: "white",
+        width: "100%",
+        height: "60px",
+        position: "sticky",
+        top: "100vh",
       }}
     >
       <Container

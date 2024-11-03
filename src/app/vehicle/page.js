@@ -3,10 +3,8 @@
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// import VehicleDetails from "../components/VehicleDetails";
 import VehicleForm from "../components/VehicleForm";
-// import Appbar from "../components/Appbar";
-import AppbarTest from "../components/AppbarTest"
+import AppbarTest from "../components/AppbarTest";
 import Footer from "../components/Footer";
 import VehicleTable from "../components/VehicleTable";
 import VehicleCarousel from "../components/VehicleCarousel";
@@ -57,8 +55,7 @@ export default function Vehicle() {
 
   return (
     <div className="vehicle">
-      {/* <Appbar /> */}
-      <AppbarTest/>
+      <AppbarTest />
       <div>
         {data.length > 0 ? (
           <VehicleCarousel vehicles={data} />
@@ -68,10 +65,6 @@ export default function Vehicle() {
       </div>
       <div className="" style={{ textAlign: "center", padding: "50px" }}>
         <VehicleForm />
-        {/* {data &&
-          data.map((vehicle) => (
-            <VehicleDetails key={vehicle._id} vehicle={vehicle} />
-          ))} */}
         {data.length > 0 ? (
           <VehicleTable vehicle={data} />
         ) : (

@@ -3,9 +3,7 @@
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// import ClientDetails from "../components/ClientDetails";
 import ClientForm from "../components/ClientForm";
-// import Appbar from "../components/Appbar";
 import AppbarTest from "../components/AppbarTest"
 import Footer from "../components/Footer";
 import ClientTable from "../components/ClientTable";
@@ -56,14 +54,9 @@ export default function Client() {
 
   return (
     <div>
-      {/* <Appbar /> */}
       <AppbarTest/>
       <div className="" style={{ textAlign: "center", padding: "50px" }}>
         <ClientForm />
-        {/* {data &&
-          data.map((client) => (
-            <ClientDetails key={client._id} client={client} />
-          ))} */}
           {data.length > 0 ? <ClientTable client={data} /> : <p>No clients found.</p>}
       </div>
       <Footer/>
