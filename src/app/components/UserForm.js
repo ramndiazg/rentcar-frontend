@@ -101,7 +101,7 @@ const UserForm = () => {
       role,
     };
 
-    const response = await fetch("http://localhost:3546/api/user", {
+    const response = await fetch("https://rentcar-backend.onrender.com/api/user", {
       method: "POST",
       body: JSON.stringify(user),
       headers: {

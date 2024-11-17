@@ -25,7 +25,7 @@ export default function Vehiclesgrid() {
     const fetchData = async () => {
       try {
         const res = await fetch(
-          "http://localhost:3546/api/vehiclesavailables",
+          "https://rentcar-backend.onrender.com/api/vehiclesavailables",
           {
             method: "GET",
           }

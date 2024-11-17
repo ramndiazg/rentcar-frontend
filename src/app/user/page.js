@@ -34,7 +34,7 @@ export default function User() {
       }
 
       try {
-        const res = await fetch("http://localhost:3546/api/user", {
+        const res = await fetch("https://rentcar-backend.onrender.com/api/user", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

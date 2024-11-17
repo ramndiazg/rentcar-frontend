@@ -58,7 +58,7 @@ export default function Dashboard() {
       }
 
       try {
-        const res = await fetch("http://localhost:3546/api/dashboard", {
+        const res = await fetch("https://rentcar-backend.onrender.com/api/dashboard", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

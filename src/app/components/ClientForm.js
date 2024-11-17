@@ -104,7 +104,7 @@ const ClientForm = () => {
       preferredPaymentMethod,
     };
 
-    const response = await fetch("http://localhost:3546/api/client", {
+    const response = await fetch("https://rentcar-backend.onrender.com/api/client", {
       method: "POST",
       body: JSON.stringify(client),
       headers: {

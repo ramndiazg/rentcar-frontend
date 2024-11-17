@@ -111,7 +111,7 @@ const VehicleForm = () => {
       imageUrl,
     };
 
-    const response = await fetch("http://localhost:3546/api/vehicle", {
+    const response = await fetch("https://rentcar-backend.onrender.com/api/vehicle", {
       method: "POST",
       body: JSON.stringify(vehicle),
       headers: {
