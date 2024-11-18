@@ -76,14 +76,8 @@ export default function Home() {
         {filteredVehicles.length > 0 ? (
           <Grid2 container spacing={2}>
             {filteredVehicles.map((vehicle) => (
-              <Grid2
-                key={vehicle._id}
-                item
-                xs={12}
-                sm={6}
-                md={4}
-              >
-                <VehicleCard image={vehicle.image}>
+              <Grid2 key={vehicle._id} item xs={12} sm={6} md={4}>
+                <VehicleCard image={vehicle.imageUrl}>
                   <Typography variant="h6">
                     {vehicle.make} {vehicle.model}
                   </Typography>

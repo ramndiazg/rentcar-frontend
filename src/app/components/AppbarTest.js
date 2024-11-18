@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useRouter } from 'next/navigation';
 
-const settings = ['Available vehicles', 'Update my data', 'Dashboard', 'Logout'];
+const settings = ['Services', 'About', 'Dashboard', 'Logout'];
 
 function AppbarTest() {
   const router = useRouter();
