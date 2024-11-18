@@ -52,6 +52,11 @@ function AppbarTest() {
     handleCloseNavMenu();
   };
 
+  const goToRent = () => {
+    router.push('/rent');
+    handleCloseNavMenu();
+  };
+
   const handleSettingNavigation = (setting) => {
     const route = setting.toLowerCase().replace(' ', '-');
     if (route === 'logout') {
@@ -121,6 +126,9 @@ function AppbarTest() {
               <MenuItem onClick={goToVehicle}>
                 <Typography sx={{ textAlign: 'center' }}>Vehicle</Typography>
               </MenuItem>
+              <MenuItem onClick={goToRent}>
+                <Typography sx={{ textAlign: 'center' }}>Rent</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
@@ -160,6 +168,12 @@ function AppbarTest() {
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
               Vehicle
+            </Button>
+            <Button
+              onClick={goToRent}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Rent
             </Button>
           </Box>
           <Box sx={{ flexGrow: 0 }}>

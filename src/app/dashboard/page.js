@@ -132,6 +132,22 @@ export default function Dashboard() {
               </StyledButton>
             </CardContent>
           </StyledCard>
+
+          <StyledCard variant="outlined">
+            <CardContent>
+              <Typography variant="h6">Rent</Typography>
+              <Typography variant="body2" color="textSecondary">
+                Go to the rent page to manage rent settings.
+              </Typography>
+              <StyledButton
+                variant="contained"
+                color="primary"
+                onClick={() => goToPage("/rent")}
+              >
+                Go to Rent
+              </StyledButton>
+            </CardContent>
+          </StyledCard>
         </StyledStack>
       </Container>
       <Footer />
