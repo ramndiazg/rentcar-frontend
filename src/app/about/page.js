@@ -9,8 +9,8 @@ import Footer from "../components/Footer";
 const StyledContainer = styled("div")({
   textAlign: "center",
   padding: "50px",
-  backgroundColor: "#f5f5f5",
-  color: "#333",
+  backgroundColor: "black",
+  color: "#f5f5f5",
 });
 
 const StyledTitle = styled("h1")({
