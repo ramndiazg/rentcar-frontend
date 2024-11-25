@@ -39,12 +39,9 @@ export default function VehicleTable({ vehicle, onDelete }) {
             <StyledTableCell align="right">Model</StyledTableCell>
             <StyledTableCell align="right">Color</StyledTableCell>
             <StyledTableCell align="right">Year</StyledTableCell>
-            <StyledTableCell align="right">Chassis</StyledTableCell>
             <StyledTableCell align="right">Register</StyledTableCell>
             <StyledTableCell align="right">Status</StyledTableCell>
-            <StyledTableCell align="right">Mileage</StyledTableCell>
             <StyledTableCell align="right">CostPerDay</StyledTableCell>
-            <StyledTableCell align="right">LastServiceDate</StyledTableCell>
             <StyledTableCell align="right">Actions</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -57,15 +54,10 @@ export default function VehicleTable({ vehicle, onDelete }) {
               <StyledTableCell align="right">{vehicl.model}</StyledTableCell>
               <StyledTableCell align="right">{vehicl.color}</StyledTableCell>
               <StyledTableCell align="right">{vehicl.year}</StyledTableCell>
-              <StyledTableCell align="right">{vehicl.chassis}</StyledTableCell>
               <StyledTableCell align="right">{vehicl.register}</StyledTableCell>
               <StyledTableCell align="right">{vehicl.status}</StyledTableCell>
-              <StyledTableCell align="right">{vehicl.mileage}</StyledTableCell>
               <StyledTableCell align="right">
                 {vehicl.costPerDay}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {vehicl.lastServiceDate}
               </StyledTableCell>
               <StyledTableCell align="right">
                 <IconButton
