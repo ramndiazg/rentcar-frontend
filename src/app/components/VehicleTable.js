@@ -7,6 +7,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -27,7 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function VehicleTable({ vehicle }) {
+export default function VehicleTable({ vehicle, onDelete }) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -43,6 +45,7 @@ export default function VehicleTable({ vehicle }) {
             <StyledTableCell align="right">Mileage</StyledTableCell>
             <StyledTableCell align="right">CostPerDay</StyledTableCell>
             <StyledTableCell align="right">LastServiceDate</StyledTableCell>
+            <StyledTableCell align="right">Actions</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -63,6 +66,15 @@ export default function VehicleTable({ vehicle }) {
               </StyledTableCell>
               <StyledTableCell align="right">
                 {vehicl.lastServiceDate}
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                <IconButton
+                  aria-label="delete"
+                  color="error"
+                  onClick={() => onDelete(vehicl._id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
               </StyledTableCell>
             </StyledTableRow>
           ))}

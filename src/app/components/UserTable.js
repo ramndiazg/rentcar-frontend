@@ -7,6 +7,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -27,7 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function UserTable({ user }) {
+export default function UserTable({ user, onDelete }) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -38,6 +40,7 @@ export default function UserTable({ user }) {
             <StyledTableCell align="right">Phone</StyledTableCell>
             <StyledTableCell align="right">Email</StyledTableCell>
             <StyledTableCell align="right">Role</StyledTableCell>
+            <StyledTableCell align="right">Actions</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -50,6 +53,15 @@ export default function UserTable({ user }) {
               <StyledTableCell align="right">{usr.phone}</StyledTableCell>
               <StyledTableCell align="right">{usr.email}</StyledTableCell>
               <StyledTableCell align="right">{usr.role}</StyledTableCell>
+              <StyledTableCell align="right">
+                <IconButton
+                  aria-label="delete"
+                  color="error"
+                  onClick={() => onDelete(usr._id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -14,41 +14,62 @@ export default function User() {
   const goToDashboard = () => {
     router.push("/dashboard");
   };
+  const fetchData = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      router.push("/");
+      return;
+    }
+
+    const decodedToken = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
+
+    if (decodedToken.exp < currentTime) {
+      localStorage.removeItem("token");
+      router.push("/login");
+      return;
+    }
+
+    try {
+      const res = await fetch("https://rentcar-backend.onrender.com/api/user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const result = await res.json();
+      setData(result);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await fetch(`https://rentcar-backend.onrender.com/api/user/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res.ok) {
+        fetchData();
+      } else {
+        console.error("Failed to delete user");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
 
   useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        router.push("/");
-        return;
-      }
-
-      const decodedToken = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
-
-      if (decodedToken.exp < currentTime) {
-        localStorage.removeItem("token");
-        router.push("/login");
-        return;
-      }
-
-      try {
-        const res = await fetch("https://rentcar-backend.onrender.com/api/user", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-
-        const result = await res.json();
-        setData(result);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
     fetchData();
   }, [router]);
 
@@ -57,7 +78,7 @@ export default function User() {
       <AppbarTest/>
       <div className="" style={{ textAlign: "center", padding: "50px" }}>
         <UserForm />
-        {data.length > 0 ? <UserTable user={data} /> : <p>No users found.</p>}
+        {data.length > 0 ? <UserTable user={data} onDelete={handleDelete}/> : <p>No users found.</p>}
       </div>
       <Footer />
     </div>

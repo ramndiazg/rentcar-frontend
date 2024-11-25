@@ -14,41 +14,61 @@ export default function Client() {
   const goToDashboard = () => {
     router.push("/dashboard");
   };
+  const fetchData = async () => {
+    const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
+      return;
+    }
 
-      if (!token) {
-        router.push("/login");
-        return;
-      }
+    const decodedToken = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
 
-      const decodedToken = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
+    if (decodedToken.exp < currentTime) {
+      localStorage.removeItem("token");
+      router.push("/login");
+      return;
+    }
 
-      if (decodedToken.exp < currentTime) {
-        localStorage.removeItem("token");
-        router.push("/login");
-        return;
-      }
+    try {
+    const res = await fetch("https://rentcar-backend.onrender.com/api/client", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-      try {
-      const res = await fetch("https://rentcar-backend.onrender.com/api/client", {
-        method: "GET",
+    const result = await res.json();
+    setData(result);
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+  };
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await fetch(`https://rentcar-backend.onrender.com/api/client/${id}`, {
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
 
-      const result = await res.json();
-      setData(result);
+      if (res.ok) {
+        fetchData();
+      } else {
+        console.error("Failed to delete client");
+      }
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.error("Error deleting client:", error);
     }
-    };
+  };
 
+  useEffect(() => {
     fetchData();
   }, [router]);
 
@@ -57,7 +77,7 @@ export default function Client() {
       <AppbarTest/>
       <div className="" style={{ textAlign: "center", padding: "50px" }}>
         <ClientForm />
-          {data.length > 0 ? <ClientTable client={data} /> : <p>No clients found.</p>}
+          {data.length > 0 ? <ClientTable client={data} onDelete={handleDelete}/> : <p>No clients found.</p>}
       </div>
       <Footer/>
     </div>
