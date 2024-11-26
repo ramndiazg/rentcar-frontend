@@ -4,13 +4,19 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 // import RentForm from "../components/RentForm";
-import AppbarTest from "../components/AppbarTest"
+import AppbarTest from "../components/AppbarTest";
 import Footer from "../components/Footer";
 import RentTable from "../components/RentTable";
+import SelectClientTable from "../components/SelectClientTable";
 
 export default function Rent() {
-  const [data, setData] = useState([]);
+  const [rentData, setRentData] = useState([]);
+  const [clientData, setClientData] = useState([]);
+  const [selectedClient, setSelectedClient] = useState(null);
   const router = useRouter();
+  const handleSelectClient = (client) => {
+    setSelectedClient(client);
+  };
   const goToDashboard = () => {
     router.push("/dashboard");
   };
@@ -34,18 +40,37 @@ export default function Rent() {
       }
 
       try {
-        const res = await fetch("https://rentcar-backend.onrender.com/api/rent", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await fetch(
+          "https://rentcar-backend.onrender.com/api/rent",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         const result = await res.json();
-        setData(result);
+        setRentData(result);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching rent data:", error);
+      }
+      try {
+        const res = await fetch(
+          "https://rentcar-backend.onrender.com/api/client",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const result = await res.json();
+        setClientData(result);
+      } catch (error) {
+        console.error("Error fetching client data:", error);
       }
     };
 
@@ -54,12 +79,26 @@ export default function Rent() {
 
   return (
     <div>
-      <AppbarTest/>
+      <AppbarTest />
       <div className="" style={{ textAlign: "center", padding: "50px" }}>
         {/* <RentForm /> */}
-        {data.length > 0 ? <RentTable rent={data} /> : <p>No rents found.</p>}
+        {rentData.length > 0 ? (
+          <RentTable rent={rentData} />
+        ) : (
+          <p>No rents found.</p>
+        )}
       </div>
-      <Footer/>
+      <div style={{ textAlign: "center", padding: "50px" }}>
+        {clientData.length > 0 ? (
+          <SelectClientTable
+            clients={clientData}
+            onSelect={handleSelectClient}
+          />
+        ) : (
+          <p>No clients found.</p>
+        )}
+      </div>
+      <Footer />
     </div>
   );
 }
