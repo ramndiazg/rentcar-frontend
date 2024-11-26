@@ -1,14 +1,14 @@
 "use client";
-
+import React, { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// import RentForm from "../components/RentForm";
 import AppbarTest from "../components/AppbarTest";
 import Footer from "../components/Footer";
-import RentTable from "../components/RentTable";
 import SelectClientTable from "../components/SelectClientTable";
 import SelectVehicleTable from "../components/SelectVehicleTable";
+import RentTable from "../components/RentTable";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 export default function Rent() {
   const [rentData, setRentData] = useState([]);
@@ -17,15 +17,9 @@ export default function Rent() {
   const [selectedClient, setSelectedClient] = useState(null);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const router = useRouter();
-  const handleSelectClient = (client) => {
-    setSelectedClient(client);
-  };
-  const handleSelectVehicle = (vehicle) => {
-    setSelectedVehicle(vehicle);
-  };
-  const goToDashboard = () => {
-    router.push("/dashboard");
-  };
+
+  const handleSelectClient = (client) => setSelectedClient(client);
+  const handleSelectVehicle = (vehicle) => setSelectedVehicle(vehicle);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,24 +40,7 @@ export default function Rent() {
       }
 
       try {
-        const res = await fetch(
-          "https://rentcar-backend.onrender.com/api/rent",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        const result = await res.json();
-        setRentData(result);
-      } catch (error) {
-        console.error("Error fetching rent data:", error);
-      }
-      try {
-        const res = await fetch(
+        const clientRes = await fetch(
           "https://rentcar-backend.onrender.com/api/client",
           {
             method: "GET",
@@ -73,28 +50,36 @@ export default function Rent() {
             },
           }
         );
-        const result = await res.json();
-        setClientData(result);
+        setClientData(await clientRes.json());
+
+        const vehicleRes = await fetch(
+          "https://rentcar-backend.onrender.com/api/vehicle",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setVehicleData(await vehicleRes.json());
+
+        const rentRes = await fetch(
+          "https://rentcar-backend.onrender.com/api/rent",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setRentData(await rentRes.json());
+
       } catch (error) {
-        console.error("Error fetching client data:", error);
+        console.error("Error fetching data:", error);
       }
-    try {
-      const res = await fetch(
-        "https://rentcar-backend.onrender.com/api/vehicle",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const result = await res.json();
-      setVehicleData(result);
-    } catch (error) {
-      console.error("Error fetching vehicle data:", error);
-    }
-  };
+    };
 
     fetchData();
   }, [router]);
@@ -102,34 +87,73 @@ export default function Rent() {
   return (
     <div>
       <AppbarTest />
-      <div className="" style={{ textAlign: "center", padding: "50px" }}>
-        {/* <RentForm /> */}
-        {rentData.length > 0 ? (
-          <RentTable rent={rentData} />
-        ) : (
-          <p>No rents found.</p>
-        )}
-      </div>
-      <div style={{ textAlign: "center", padding: "50px" }}>
-        {clientData.length > 0 ? (
-          <SelectClientTable
-            clients={clientData}
-            onSelect={handleSelectClient}
-          />
-        ) : (
-          <p>No clients found.</p>
-        )}
-      </div>
-      <div style={{ textAlign: "center", padding: "50px" }}>
-        {vehicleData.length > 0 ? (
-          <SelectVehicleTable
-            vehicles={vehicleData}
-            onSelect={handleSelectVehicle}
-          />
-        ) : (
-          <p>No vehicles found.</p>
-        )}
-      </div>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          gap: 4,
+          justifyContent: "center",
+          alignItems: "flex-start",
+          margin: 4,
+          padding: 2,
+          border: "1px solid #ccc",
+          borderRadius: 4,
+          backgroundColor: "#f9f9f9",
+        }}
+      >
+        <Box
+          sx={{
+            flex: 1,
+            maxHeight: "400px",
+            overflowY: "auto",
+            padding: 2,
+            border: "1px solid #ddd",
+            borderRadius: 2,
+            backgroundColor: "white",
+          }}
+        >
+          {clientData.length > 0 ? (
+            <SelectClientTable
+              clients={clientData}
+              onSelect={handleSelectClient}
+            />
+          ) : (
+            <Typography>No clients found.</Typography>
+          )}
+        </Box>
+
+        <Box
+          sx={{
+            flex: 1,
+            maxHeight: "400px",
+            overflowY: "auto",
+            padding: 2,
+            border: "1px solid #ddd",
+            borderRadius: 2,
+            backgroundColor: "white",
+          }}
+        >
+          {vehicleData.length > 0 ? (
+            <SelectVehicleTable
+              vehicles={vehicleData}
+              onSelect={handleSelectVehicle}
+            />
+          ) : (
+            <Typography>No vehicles found.</Typography>
+          )}
+        </Box>
+      </Box>
+      <Box sx={{ marginTop: 2 }}>
+        <Typography variant="body1">
+          Selected Client: {selectedClient?.firstName || "None"}
+        </Typography>
+        <Typography variant="body1">
+          Selected Vehicle: {selectedVehicle?.make || "None"}
+        </Typography>
+      </Box>
+      <Box sx={{ margin: 2 }}>
+      <RentTable rent={rentData}/>
+      </Box>
       <Footer />
     </div>
   );
