@@ -28,12 +28,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function SelectClientTable({ clients, onSelect }) {
-  const [selectedClient, setSelectedClient] = useState(null);
+export default function SelectVehicleTable({ vehicles, onSelect }) {
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
 
-  const handleCheckboxChange = (client) => {
-    setSelectedClient(client);
-    onSelect(client);
+  const handleCheckboxChange = (vehicle) => {
+    setSelectedVehicle(vehicle);
+    onSelect(vehicle);
   };
 
   return (
@@ -42,26 +42,26 @@ export default function SelectClientTable({ clients, onSelect }) {
         <TableHead>
           <TableRow>
             <StyledTableCell>Select</StyledTableCell>
-            <StyledTableCell>Clients</StyledTableCell>
-            <StyledTableCell align="right">LastName</StyledTableCell>
-            <StyledTableCell align="right">Phone</StyledTableCell>
+            <StyledTableCell>Vehicles</StyledTableCell>
+            <StyledTableCell align="right">Model</StyledTableCell>
+            <StyledTableCell align="right">Year</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {clients.map((clt) => (
-            <StyledTableRow key={clt._id}>
+          {vehicles.map((vhc) => (
+            <StyledTableRow key={vhc._id}>
               <StyledTableCell>
                 <Checkbox
-                  checked={selectedClient?._id === clt._id}
-                  onChange={() => handleCheckboxChange(clt)}
+                  checked={selectedVehicle?._id === vhc._id}
+                  onChange={() => handleCheckboxChange(vhc)}
                   color="primary"
                 />
               </StyledTableCell>
               <StyledTableCell component="th" scope="row">
-                {clt.firstName}
+                {vhc.make}
               </StyledTableCell>
-              <StyledTableCell align="right">{clt.lastName}</StyledTableCell>
-              <StyledTableCell align="right">{clt.phone}</StyledTableCell>
+              <StyledTableCell align="right">{vhc.model}</StyledTableCell>
+              <StyledTableCell align="right">{vhc.year}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

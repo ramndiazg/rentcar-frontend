@@ -8,14 +8,20 @@ import AppbarTest from "../components/AppbarTest";
 import Footer from "../components/Footer";
 import RentTable from "../components/RentTable";
 import SelectClientTable from "../components/SelectClientTable";
+import SelectVehicleTable from "../components/SelectVehicleTable";
 
 export default function Rent() {
   const [rentData, setRentData] = useState([]);
   const [clientData, setClientData] = useState([]);
+  const [vehicleData, setVehicleData] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
   const router = useRouter();
   const handleSelectClient = (client) => {
     setSelectedClient(client);
+  };
+  const handleSelectVehicle = (vehicle) => {
+    setSelectedVehicle(vehicle);
   };
   const goToDashboard = () => {
     router.push("/dashboard");
@@ -72,7 +78,23 @@ export default function Rent() {
       } catch (error) {
         console.error("Error fetching client data:", error);
       }
-    };
+    try {
+      const res = await fetch(
+        "https://rentcar-backend.onrender.com/api/vehicle",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const result = await res.json();
+      setVehicleData(result);
+    } catch (error) {
+      console.error("Error fetching vehicle data:", error);
+    }
+  };
 
     fetchData();
   }, [router]);
@@ -96,6 +118,16 @@ export default function Rent() {
           />
         ) : (
           <p>No clients found.</p>
+        )}
+      </div>
+      <div style={{ textAlign: "center", padding: "50px" }}>
+        {vehicleData.length > 0 ? (
+          <SelectVehicleTable
+            vehicles={vehicleData}
+            onSelect={handleSelectVehicle}
+          />
+        ) : (
+          <p>No vehicles found.</p>
         )}
       </div>
       <Footer />
