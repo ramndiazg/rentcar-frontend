@@ -5,20 +5,25 @@ import { useRouter } from "next/navigation";
 import AppbarTest from "../components/AppbarTest";
 import Footer from "../components/Footer";
 import SelectClientTable from "../components/SelectClientTable";
+import SelectUserTable from "../components/SelectUserTable";
 import SelectVehicleTable from "../components/SelectVehicleTable";
 import RentTable from "../components/RentTable";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import RentForm from "../components/RentalForm";
 
 export default function Rent() {
   const [rentData, setRentData] = useState([]);
   const [clientData, setClientData] = useState([]);
+  const [userData, setUserData] = useState([]);
   const [vehicleData, setVehicleData] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const router = useRouter();
 
   const handleSelectClient = (client) => setSelectedClient(client);
+  const handleSelectUser = (user) => setSelectedUser(user);
   const handleSelectVehicle = (vehicle) => setSelectedVehicle(vehicle);
 
   useEffect(() => {
@@ -64,6 +69,18 @@ export default function Rent() {
         );
         setVehicleData(await vehicleRes.json());
 
+        const userRes = await fetch(
+          "https://rentcar-backend.onrender.com/api/user",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setUserData(await userRes.json());
+
         const rentRes = await fetch(
           "https://rentcar-backend.onrender.com/api/rent",
           {
@@ -75,7 +92,6 @@ export default function Rent() {
           }
         );
         setRentData(await rentRes.json());
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -142,17 +158,46 @@ export default function Rent() {
             <Typography>No vehicles found.</Typography>
           )}
         </Box>
+        <Box
+          sx={{
+            flex: 1,
+            maxHeight: "400px",
+            overflowY: "auto",
+            padding: 2,
+            border: "1px solid #ddd",
+            borderRadius: 2,
+            backgroundColor: "white",
+          }}
+        >
+          {userData.length > 0 ? (
+            <SelectUserTable users={userData} onSelect={handleSelectUser} />
+          ) : (
+            <Typography>No users found.</Typography>
+          )}
+        </Box>
       </Box>
       <Box sx={{ marginTop: 2 }}>
         <Typography variant="body1">
           Selected Client: {selectedClient?.firstName || "None"}
         </Typography>
         <Typography variant="body1">
+          Selected User: {selectedUser?.firstName || "None"}
+        </Typography>
+        <Typography variant="body1">
           Selected Vehicle: {selectedVehicle?.make || "None"}
         </Typography>
       </Box>
+      <Box
+        sx={{ margin: 2, backgroundColor: "#333", padding: 2, borderRadius: 2 }}
+      >
+        <RentForm
+          selectedClientId={selectedClient?._id || "None"}
+          selectedUserId={selectedUser?._id || "None"}
+          selectedVehicleId={selectedVehicle?._id || "None"}
+        />
+      </Box>
       <Box sx={{ margin: 2 }}>
-      <RentTable rent={rentData}/>
+        <RentTable rent={rentData} />
       </Box>
       <Footer />
     </div>
