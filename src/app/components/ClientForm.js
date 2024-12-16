@@ -17,9 +17,9 @@ const StyledFormControl = styled(FormControl)({
   p: 2,
   alignItems: "center",
   minWidth: 200,
-  maxWidth: '100%',
-  overflow: 'auto',
-  resize: 'horizontal',
+  maxWidth: "100%",
+  overflow: "auto",
+  resize: "horizontal",
 });
 
 const StyledFormLabel = styled(FormLabel)({
@@ -104,14 +104,17 @@ const ClientForm = () => {
       preferredPaymentMethod,
     };
 
-    const response = await fetch("https://rentcar-backend.onrender.com/api/client", {
-      method: "POST",
-      body: JSON.stringify(client),
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "https://rentcar-backend.onrender.com/api/client",
+      {
+        method: "POST",
+        body: JSON.stringify(client),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const json = await response.json();
     if (!response.ok) {
@@ -187,11 +190,7 @@ const ClientForm = () => {
           )}
         />
 
-        <StyledButton
-          type="submit"
-        >
-          Add Client
-        </StyledButton>
+        <StyledButton type="submit">Add Client</StyledButton>
 
         {error && <div className="error">{error}</div>}
       </StyledFormControl>

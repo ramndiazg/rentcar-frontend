@@ -191,9 +191,9 @@ export default function Rent() {
         sx={{ margin: 2, backgroundColor: "#333", padding: 2, borderRadius: 2 }}
       >
         <RentForm
-          selectedClientId={selectedClient?._id || "None"}
-          selectedUserId={selectedUser?._id || "None"}
-          selectedVehicleId={selectedVehicle?._id || "None"}
+          selectedClient={selectedClient?._id || "None"}
+          selectedUser={selectedUser?._id || "None"}
+          selectedVehicle={selectedVehicle?._id || "None"}
         />
       </Box>
       <Box sx={{ margin: 2 }}>

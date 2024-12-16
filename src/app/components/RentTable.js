@@ -45,10 +45,10 @@ export default function RentTable({ rent }) {
           {rent.map((rnt) => (
             <StyledTableRow key={rnt._id}>
               <StyledTableCell component="th" scope="row">
-                {rnt.client.firstName}
+                {rnt.client}
               </StyledTableCell>
-              <StyledTableCell align="right">{rnt.vehicle.model}</StyledTableCell>
-              <StyledTableCell align="right">{rnt.user.firstName}</StyledTableCell>
+              <StyledTableCell align="right">{rnt.vehicle}</StyledTableCell>
+              <StyledTableCell align="right">{rnt.user}</StyledTableCell>
               <StyledTableCell align="right">{rnt.rentDays}</StyledTableCell>
               <StyledTableCell align="right">{rnt.rentAmount}</StyledTableCell>
               <StyledTableCell align="right">{rnt.rentStatus}</StyledTableCell>
