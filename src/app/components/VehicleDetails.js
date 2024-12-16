@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 
 const VehicleDetails = ({ vehicle }) => {
   return (
-    <div className="" style={{ alignItems: "center"}}>
+    <div className="" style={{ alignItems: "center" }}>
       <Card sx={{ maxWidth: 175, alignContent: "center" }}>
         <CardContent>
           <Typography variant="h5" component="div">

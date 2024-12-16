@@ -12,19 +12,19 @@ const UserDetails = ({ user }) => {
         <Card sx={{ maxWidth: 175, alignContent: "center" }}>
           <CardContent>
             <Typography variant="h5" component="div">
-            {user.firstName}
+              {user.firstName}
             </Typography>
             <Typography variant="h5" component="div">
-            {user.lastName}
+              {user.lastName}
             </Typography>
             <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-            {user.phone}
+              {user.phone}
             </Typography>
             <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-            {user.email}
+              {user.email}
             </Typography>
             <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-            {user.role}
+              {user.role}
             </Typography>
           </CardContent>
           <CardActions>

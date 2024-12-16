@@ -50,13 +50,16 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const res = await fetch("https://rentcar-backend.onrender.com/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        "https://rentcar-backend.onrender.com/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Login fail");
@@ -73,28 +76,24 @@ export default function LoginPage() {
   return (
     <StyledContainer>
       <form onSubmit={handleSubmit}>
-      <StyledFormControl>
-      <StyledFormLabel>Login</StyledFormLabel>
-      <StyledTextField
-          label="Email"
-          type="email"
-          variant="outlined"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
+        <StyledFormControl>
+          <StyledFormLabel>Login</StyledFormLabel>
           <StyledTextField
-          label="Password"
-          type="password"
-          variant="outlined"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
-        <StyledButton
-          type="submit"
-        >
-          Login
-        </StyledButton>
-        {error && <div className="error">{error}</div>}
+            label="Email"
+            type="email"
+            variant="outlined"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+          <StyledTextField
+            label="Password"
+            type="password"
+            variant="outlined"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+          <StyledButton type="submit">Login</StyledButton>
+          {error && <div className="error">{error}</div>}
         </StyledFormControl>
       </form>
     </StyledContainer>

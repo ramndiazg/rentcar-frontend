@@ -17,9 +17,9 @@ const StyledFormControl = styled(FormControl)({
   p: 2,
   alignItems: "center",
   minWidth: 200,
-  maxWidth: '100%',
-  overflow: 'auto',
-  resize: 'horizontal',
+  maxWidth: "100%",
+  overflow: "auto",
+  resize: "horizontal",
 });
 
 const StyledFormLabel = styled(FormLabel)({
@@ -101,14 +101,17 @@ const UserForm = () => {
       role,
     };
 
-    const response = await fetch("https://rentcar-backend.onrender.com/api/user", {
-      method: "POST",
-      body: JSON.stringify(user),
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "https://rentcar-backend.onrender.com/api/user",
+      {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const json = await response.json();
     if (!response.ok) {
@@ -171,11 +174,7 @@ const UserForm = () => {
           onChange={(e, newValue) => setRole(newValue)}
           renderInput={(params) => <TextField {...params} label="Role" />}
         />
-        <StyledButton
-          type="submit"
-        >
-          Add User
-        </StyledButton>
+        <StyledButton type="submit">Add User</StyledButton>
 
         {error && <div className="error">{error}</div>}
       </StyledFormControl>

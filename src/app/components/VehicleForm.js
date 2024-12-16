@@ -17,9 +17,9 @@ const StyledFormControl = styled(FormControl)({
   p: 2,
   alignItems: "center",
   minWidth: 200,
-  maxWidth: '100%',
-  overflow: 'auto',
-  resize: 'horizontal',
+  maxWidth: "100%",
+  overflow: "auto",
+  resize: "horizontal",
 });
 
 const StyledFormLabel = styled(FormLabel)({
@@ -111,14 +111,17 @@ const VehicleForm = () => {
       imageUrl,
     };
 
-    const response = await fetch("https://rentcar-backend.onrender.com/api/vehicle", {
-      method: "POST",
-      body: JSON.stringify(vehicle),
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "https://rentcar-backend.onrender.com/api/vehicle",
+      {
+        method: "POST",
+        body: JSON.stringify(vehicle),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const json = await response.json();
     if (!response.ok) {
@@ -221,11 +224,7 @@ const VehicleForm = () => {
           onChange={(e) => setImageUrl(e.target.value)}
           value={imageUrl}
         />
-        <StyledButton
-          type="submit"
-        >
-          Add Vehicle
-        </StyledButton>
+        <StyledButton type="submit">Add Vehicle</StyledButton>
 
         {error && <div className="error">{error}</div>}
       </StyledFormControl>

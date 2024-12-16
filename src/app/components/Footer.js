@@ -33,7 +33,7 @@ function Footer() {
         </Typography>
         <Box>
           <Link href="#" color="inherit" underline="hover" sx={{ mx: 1 }}>
-          Created by: Ramon Diaz
+            Created by: Ramon Diaz
           </Link>
         </Box>
       </Container>
