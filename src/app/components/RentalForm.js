@@ -4,6 +4,8 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
 const FormContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -25,6 +27,27 @@ export default function RentForm({
   const [amount, setAmount] = useState(0);
   const [costPerDay, setCostPerDay] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const tokenStored = localStorage.getItem("token");
+    if (!tokenStored) {
+      router.push("/");
+      return;
+    }
+
+    const decodedToken = jwtDecode(tokenStored);
+    const currentTime = Date.now() / 1000;
+
+    if (decodedToken.exp < currentTime) {
+      localStorage.removeItem("token");
+      router.push("/login");
+      return;
+    }
+
+    setToken(tokenStored);
+  }, [router]);
 
   useEffect(() => {
     const fetchVehicleData = async () => {
@@ -48,16 +71,21 @@ export default function RentForm({
     }
   }, [rentDays, costPerDay]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!token) {
+      setError("Token not available");
+      return;
+    }
     if (!selectedUser || !selectedClient || !selectedVehicle) {
       alert("Please select a user, client and vehicle.");
       return;
     }
 
     const rentData = {
-      userId: selectedUser.id,
-      clientId: selectedClient._id,
-      vehicleId: selectedVehicle._id,
+      userId: selectedUser,
+      clientId: selectedClient,
+      vehicleId: selectedVehicle,
       rentDays,
       amount,
       status: "active",
@@ -65,13 +93,17 @@ export default function RentForm({
 
     setLoading(true);
     try {
-      const response = await fetch("/api/rents", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(rentData),
-      });
+      const response = await fetch(
+        "https://rentcar-backend.onrender.com/api/rent",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(rentData),
+        }
+      );
 
       if (!response.ok) throw new Error("Failed to create rent");
 
