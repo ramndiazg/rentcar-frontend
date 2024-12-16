@@ -58,13 +58,16 @@ export default function Dashboard() {
       }
 
       try {
-        const res = await fetch("https://rentcar-backend.onrender.com/api/dashboard", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await fetch(
+          "https://rentcar-backend.onrender.com/api/dashboard",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         const result = await res.json();
         setData(result);

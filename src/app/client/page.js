@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ClientForm from "../components/ClientForm";
-import AppbarTest from "../components/AppbarTest"
+import AppbarTest from "../components/AppbarTest";
 import Footer from "../components/Footer";
 import ClientTable from "../components/ClientTable";
 
@@ -32,31 +32,37 @@ export default function Client() {
     }
 
     try {
-    const res = await fetch("https://rentcar-backend.onrender.com/api/client", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+      const res = await fetch(
+        "https://rentcar-backend.onrender.com/api/client",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    const result = await res.json();
-    setData(result);
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
+      const result = await res.json();
+      setData(result);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
   };
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`https://rentcar-backend.onrender.com/api/client/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        `https://rentcar-backend.onrender.com/api/client/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (res.ok) {
         fetchData();
@@ -74,12 +80,16 @@ export default function Client() {
 
   return (
     <div>
-      <AppbarTest/>
+      <AppbarTest />
       <div className="" style={{ textAlign: "center", padding: "50px" }}>
         <ClientForm />
-          {data.length > 0 ? <ClientTable client={data} onDelete={handleDelete}/> : <p>No clients found.</p>}
+        {data.length > 0 ? (
+          <ClientTable client={data} onDelete={handleDelete} />
+        ) : (
+          <p>No clients found.</p>
+        )}
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

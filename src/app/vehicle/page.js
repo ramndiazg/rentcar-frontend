@@ -33,13 +33,16 @@ export default function Vehicle() {
     }
 
     try {
-      const res = await fetch("https://rentcar-backend.onrender.com/api/vehicle", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        "https://rentcar-backend.onrender.com/api/vehicle",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const result = await res.json();
       setData(result);
@@ -51,13 +54,16 @@ export default function Vehicle() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`https://rentcar-backend.onrender.com/api/vehicle/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        `https://rentcar-backend.onrender.com/api/vehicle/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (res.ok) {
         fetchData();
@@ -70,7 +76,6 @@ export default function Vehicle() {
   };
 
   useEffect(() => {
-
     fetchData();
   }, [router]);
 
@@ -87,7 +92,7 @@ export default function Vehicle() {
       <div className="" style={{ textAlign: "center", padding: "50px" }}>
         <VehicleForm />
         {data.length > 0 ? (
-          <VehicleTable vehicle={data} onDelete={handleDelete}/>
+          <VehicleTable vehicle={data} onDelete={handleDelete} />
         ) : (
           <p>No vehicles found.</p>
         )}

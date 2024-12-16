@@ -1,20 +1,20 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import { useRouter } from 'next/navigation';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
+import { useRouter } from "next/navigation";
 
-const settings = ['Services', 'About', 'Dashboard', 'Logout'];
+const settings = ["Services", "About", "Dashboard", "Logout"];
 
 function AppbarTest() {
   const router = useRouter();
@@ -38,30 +38,30 @@ function AppbarTest() {
   };
 
   const goToUser = () => {
-    router.push('/user');
+    router.push("/user");
     handleCloseNavMenu();
   };
 
   const goToClient = () => {
-    router.push('/client');
+    router.push("/client");
     handleCloseNavMenu();
   };
 
   const goToVehicle = () => {
-    router.push('/vehicle');
+    router.push("/vehicle");
     handleCloseNavMenu();
   };
 
   const goToRent = () => {
-    router.push('/rent');
+    router.push("/rent");
     handleCloseNavMenu();
   };
 
   const handleSettingNavigation = (setting) => {
-    const route = setting.toLowerCase().replace(' ', '-');
-    if (route === 'logout') {
+    const route = setting.toLowerCase().replace(" ", "-");
+    if (route === "logout") {
       localStorage.removeItem("token");
-      router.push('/');
+      router.push("/");
     } else {
       router.push(`/${route}`);
     }
@@ -79,18 +79,18 @@ function AppbarTest() {
             href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             RentCarApp
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -105,29 +105,29 @@ function AppbarTest() {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
+              sx={{ display: { xs: "block", md: "none" } }}
             >
               <MenuItem onClick={goToUser}>
-                <Typography sx={{ textAlign: 'center' }}>User</Typography>
+                <Typography sx={{ textAlign: "center" }}>User</Typography>
               </MenuItem>
               <MenuItem onClick={goToClient}>
-                <Typography sx={{ textAlign: 'center' }}>Client</Typography>
+                <Typography sx={{ textAlign: "center" }}>Client</Typography>
               </MenuItem>
               <MenuItem onClick={goToVehicle}>
-                <Typography sx={{ textAlign: 'center' }}>Vehicle</Typography>
+                <Typography sx={{ textAlign: "center" }}>Vehicle</Typography>
               </MenuItem>
               <MenuItem onClick={goToRent}>
-                <Typography sx={{ textAlign: 'center' }}>Rent</Typography>
+                <Typography sx={{ textAlign: "center" }}>Rent</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -139,39 +139,39 @@ function AppbarTest() {
             href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: 'monospace',
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             RentCarApp
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={goToUser}
-              sx={{ my: 2, color: 'white', display: 'block' }}
+              sx={{ my: 2, color: "white", display: "block" }}
             >
               User
             </Button>
             <Button
               onClick={goToClient}
-              sx={{ my: 2, color: 'white', display: 'block' }}
+              sx={{ my: 2, color: "white", display: "block" }}
             >
               Client
             </Button>
             <Button
               onClick={goToVehicle}
-              sx={{ my: 2, color: 'white', display: 'block' }}
+              sx={{ my: 2, color: "white", display: "block" }}
             >
               Vehicle
             </Button>
             <Button
               onClick={goToRent}
-              sx={{ my: 2, color: 'white', display: 'block' }}
+              sx={{ my: 2, color: "white", display: "block" }}
             >
               Rent
             </Button>
@@ -179,29 +179,36 @@ function AppbarTest() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Typography sx={{ textAlign: 'center', color: 'white' }}>Menu</Typography>
+                <Typography sx={{ textAlign: "center", color: "white" }}>
+                  Menu
+                </Typography>
                 {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={() => handleSettingNavigation(setting)}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                <MenuItem
+                  key={setting}
+                  onClick={() => handleSettingNavigation(setting)}
+                >
+                  <Typography sx={{ textAlign: "center" }}>
+                    {setting}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>

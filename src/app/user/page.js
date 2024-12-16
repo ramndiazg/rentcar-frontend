@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import UserForm from "../components/UserForm";
-import AppbarTest from "../components/AppbarTest"
+import AppbarTest from "../components/AppbarTest";
 import Footer from "../components/Footer";
 import UserTable from "../components/UserTable";
 
@@ -50,13 +50,16 @@ export default function User() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`https://rentcar-backend.onrender.com/api/user/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        `https://rentcar-backend.onrender.com/api/user/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (res.ok) {
         fetchData();
@@ -68,17 +71,20 @@ export default function User() {
     }
   };
 
-
   useEffect(() => {
     fetchData();
   }, [router]);
 
   return (
     <div>
-      <AppbarTest/>
+      <AppbarTest />
       <div className="" style={{ textAlign: "center", padding: "50px" }}>
         <UserForm />
-        {data.length > 0 ? <UserTable user={data} onDelete={handleDelete}/> : <p>No users found.</p>}
+        {data.length > 0 ? (
+          <UserTable user={data} onDelete={handleDelete} />
+        ) : (
+          <p>No users found.</p>
+        )}
       </div>
       <Footer />
     </div>
