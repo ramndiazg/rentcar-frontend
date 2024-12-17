@@ -58,7 +58,7 @@ export default function Rent() {
         setClientData(await clientRes.json());
 
         const vehicleRes = await fetch(
-          "https://rentcar-backend.onrender.com/api/vehicle",
+          "https://rentcar-backend.onrender.com/api/vehiclesavailables",
           {
             method: "GET",
             headers: {
