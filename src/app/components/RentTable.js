@@ -28,6 +28,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function RentTable({ rent }) {
+ 
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
