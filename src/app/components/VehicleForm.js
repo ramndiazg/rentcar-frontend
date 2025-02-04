@@ -9,18 +9,52 @@ import { FormControl, FormLabel } from "@mui/material";
 import { styled } from "@mui/system";
 
 const StyledContainer = styled("div")({
-  textAlign: "center",
-  padding: "50px",
-});
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: "20px",
+  minHeight: "100vh",
+})
 
 const StyledFormControl = styled(FormControl)({
-  p: 2,
+  display: "flex",
+  flexDirection: "column",
   alignItems: "center",
-  minWidth: 200,
-  maxWidth: "100%",
-  overflow: "auto",
-  resize: "horizontal",
-});
+  width: "100%",
+  maxWidth: "400px",
+  padding: "20px",
+  boxSizing: "border-box",
+})
+
+const StyledTextField = styled(TextField)({
+  width: "100%",
+  marginBottom: "16px",
+  "& .MuiOutlinedInput-root": {
+    backgroundColor: "#bbdefb",
+    borderRadius: 3,
+  },
+})
+
+const StyledAutoComplete = styled(Autocomplete)({
+  width: "100%",
+  marginBottom: "16px",
+  "& .MuiOutlinedInput-root": {
+    backgroundColor: "#bbdefb",
+    borderRadius: 3,
+  },
+})
+
+const StyledButton = styled(Button)({
+  width: "100%",
+  backgroundColor: "#01579b",
+  color: "white",
+  borderRadius: 6,
+  padding: "12px 0",
+  marginTop: "16px",
+  "&:hover": {
+    backgroundColor: "#014477",
+  },
+})
 
 const StyledFormLabel = styled(FormLabel)({
   width: 500,
@@ -28,32 +62,7 @@ const StyledFormLabel = styled(FormLabel)({
   color: "white",
 });
 
-const StyledTextField = styled(TextField)({
-  width: 500,
-  height: 50,
-  backgroundColor: "#bbdefb",
-  borderRadius: 3,
-  margin: "4px 8px",
-});
-
-const StyledAutoComplete = styled(Autocomplete)({
-  width: 500,
-  height: 50,
-  backgroundColor: "#bbdefb",
-  borderRadius: 3,
-  margin: "4px 8px",
-});
-
-const StyledButton = styled(Button)({
-  width: 200,
-  height: 50,
-  backgroundColor: "#01579b",
-  color: "white",
-  borderRadius: 6,
-  margin: "4px 8px",
-});
-
-const VehicleForm = () => {
+const VehicleForm = ({ onClose, fetchData }) => {
   const router = useRouter();
   const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
@@ -139,96 +148,99 @@ const VehicleForm = () => {
       setLastServiceDate("");
       setImageUrl;
       setError(null);
-      console.log("New vehicle added", json);
+      fetchData();
+      onClose();
     }
   };
 
   return (
-    <form className="createVehicle" onSubmit={handleSubmit}>
-      <StyledFormControl>
-        <StyledFormLabel>Add New Vehicle</StyledFormLabel>
-        <StyledTextField
-          label="Make"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setMake(e.target.value)}
-          value={make}
-        />
-        <StyledTextField
-          label="Model"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setModel(e.target.value)}
-          value={model}
-        />
-        <StyledTextField
-          label="Color"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setColor(e.target.value)}
-          value={color}
-        />
-        <StyledTextField
-          label="Year"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setYear(e.target.value)}
-          value={year}
-        />
-        <StyledTextField
-          label="Chassis"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setChassis(e.target.value)}
-          value={chassis}
-        />
-        <StyledTextField
-          label="Register"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setRegister(e.target.value)}
-          value={register}
-        />
-        <StyledAutoComplete
-          disablePortal
-          options={optionsStatus}
-          value={status}
-          onChange={(e, newValue) => setStatus(newValue)}
-          renderInput={(params) => <TextField {...params} label="Status" />}
-        />
-        <StyledTextField
-          label="Mileage"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setMileage(e.target.value)}
-          value={mileage}
-        />
-        <StyledTextField
-          label="Cost per day"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setCostPerDay(e.target.value)}
-          value={costPerDay}
-        />
-        <StyledTextField
-          label="Last service date"
-          type="date"
-          variant="outlined"
-          onChange={(e) => setLastServiceDate(e.target.value)}
-          value={lastServiceDate}
-        />
-        <StyledTextField
-          label="Image Url"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setImageUrl(e.target.value)}
-          value={imageUrl}
-        />
-        <StyledButton type="submit">Add Vehicle</StyledButton>
+    <StyledContainer>
+      <form className="createVehicle" onSubmit={handleSubmit}>
+        <StyledFormControl>
+          <StyledFormLabel>Add New Vehicle</StyledFormLabel>
+          <StyledTextField
+            label="Make"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setMake(e.target.value)}
+            value={make}
+          />
+          <StyledTextField
+            label="Model"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setModel(e.target.value)}
+            value={model}
+          />
+          <StyledTextField
+            label="Color"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setColor(e.target.value)}
+            value={color}
+          />
+          <StyledTextField
+            label="Year"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setYear(e.target.value)}
+            value={year}
+          />
+          <StyledTextField
+            label="Chassis"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setChassis(e.target.value)}
+            value={chassis}
+          />
+          <StyledTextField
+            label="Register"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setRegister(e.target.value)}
+            value={register}
+          />
+          <StyledAutoComplete
+            disablePortal
+            options={optionsStatus}
+            value={status}
+            onChange={(e, newValue) => setStatus(newValue)}
+            renderInput={(params) => <TextField {...params} label="Status" />}
+          />
+          <StyledTextField
+            label="Mileage"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setMileage(e.target.value)}
+            value={mileage}
+          />
+          <StyledTextField
+            label="Cost per day"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setCostPerDay(e.target.value)}
+            value={costPerDay}
+          />
+          <StyledTextField
+            label="Last service date"
+            type="date"
+            variant="outlined"
+            onChange={(e) => setLastServiceDate(e.target.value)}
+            value={lastServiceDate}
+          />
+          <StyledTextField
+            label="Image Url"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setImageUrl(e.target.value)}
+            value={imageUrl}
+          />
+          <StyledButton type="submit">Add Vehicle</StyledButton>
 
-        {error && <div className="error">{error}</div>}
-      </StyledFormControl>
-    </form>
+          {error && <div className="error">{error}</div>}
+        </StyledFormControl>
+      </form>
+    </StyledContainer>
   );
 };
 
