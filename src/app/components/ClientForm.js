@@ -9,18 +9,52 @@ import { FormControl, FormLabel } from "@mui/material";
 import { styled } from "@mui/system";
 
 const StyledContainer = styled("div")({
-  textAlign: "center",
-  padding: "50px",
-});
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: "20px",
+  minHeight: "100vh",
+})
 
 const StyledFormControl = styled(FormControl)({
-  p: 2,
+  display: "flex",
+  flexDirection: "column",
   alignItems: "center",
-  minWidth: 200,
-  maxWidth: "100%",
-  overflow: "auto",
-  resize: "horizontal",
-});
+  width: "100%",
+  maxWidth: "400px",
+  padding: "20px",
+  boxSizing: "border-box",
+})
+
+const StyledTextField = styled(TextField)({
+  width: "100%",
+  marginBottom: "16px",
+  "& .MuiOutlinedInput-root": {
+    backgroundColor: "#bbdefb",
+    borderRadius: 3,
+  },
+})
+
+const StyledAutoComplete = styled(Autocomplete)({
+  width: "100%",
+  marginBottom: "16px",
+  "& .MuiOutlinedInput-root": {
+    backgroundColor: "#bbdefb",
+    borderRadius: 3,
+  },
+})
+
+const StyledButton = styled(Button)({
+  width: "100%",
+  backgroundColor: "#01579b",
+  color: "white",
+  borderRadius: 6,
+  padding: "12px 0",
+  marginTop: "16px",
+  "&:hover": {
+    backgroundColor: "#014477",
+  },
+})
 
 const StyledFormLabel = styled(FormLabel)({
   width: 500,
@@ -28,32 +62,7 @@ const StyledFormLabel = styled(FormLabel)({
   color: "white",
 });
 
-const StyledTextField = styled(TextField)({
-  width: 500,
-  height: 50,
-  backgroundColor: "#bbdefb",
-  borderRadius: 3,
-  margin: "4px 8px",
-});
-
-const StyledAutoComplete = styled(Autocomplete)({
-  width: 500,
-  height: 50,
-  backgroundColor: "#bbdefb",
-  borderRadius: 3,
-  margin: "4px 8px",
-});
-
-const StyledButton = styled(Button)({
-  width: 200,
-  height: 50,
-  backgroundColor: "#01579b",
-  color: "white",
-  borderRadius: 6,
-  margin: "4px 8px",
-});
-
-const ClientForm = () => {
+const ClientForm = ({ onClose, fetchData }) => {
   const router = useRouter();
   const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
@@ -128,73 +137,76 @@ const ClientForm = () => {
       setMembershipStatus("");
       setPreferredPaymentMethod("");
       setError(null);
-      console.log("New client added", json);
+      fetchData();
+      onClose();
     }
   };
 
   return (
-    <form className="createClient" onSubmit={handleSubmit}>
-      <StyledFormControl>
-        <StyledFormLabel>Add New Client</StyledFormLabel>
-        <StyledTextField
-          label="First Name"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setFirstName(e.target.value)}
-          value={firstName}
-        />
-        <StyledTextField
-          label="Last Name"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setLastName(e.target.value)}
-          value={lastName}
-        />
-        <StyledTextField
-          label="Phone"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setPhone(e.target.value)}
-          value={phone}
-        />
-        <StyledTextField
-          label="Email"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-        <StyledTextField
-          label="Address"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setAddress(e.target.value)}
-          value={address}
-        />
-        <StyledAutoComplete
-          disablePortal
-          options={optionsStatus}
-          value={membershipStatus}
-          onChange={(e, newValue) => setMembershipStatus(newValue)}
-          renderInput={(params) => (
-            <TextField {...params} label="MembershipStatus" />
-          )}
-        />
-        <StyledAutoComplete
-          disablePortal
-          options={optionsPayment}
-          value={preferredPaymentMethod}
-          onChange={(e, newValue) => setPreferredPaymentMethod(newValue)}
-          renderInput={(params) => (
-            <TextField {...params} label="PreferredPaymentMethod" />
-          )}
-        />
+    <StyledContainer>
+      <form className="createClient" onSubmit={handleSubmit}>
+        <StyledFormControl>
+          <StyledFormLabel>Add New Client</StyledFormLabel>
+          <StyledTextField
+            label="First Name"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setFirstName(e.target.value)}
+            value={firstName}
+          />
+          <StyledTextField
+            label="Last Name"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setLastName(e.target.value)}
+            value={lastName}
+          />
+          <StyledTextField
+            label="Phone"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setPhone(e.target.value)}
+            value={phone}
+          />
+          <StyledTextField
+            label="Email"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+          <StyledTextField
+            label="Address"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setAddress(e.target.value)}
+            value={address}
+          />
+          <StyledAutoComplete
+            disablePortal
+            options={optionsStatus}
+            value={membershipStatus}
+            onChange={(e, newValue) => setMembershipStatus(newValue)}
+            renderInput={(params) => (
+              <TextField {...params} label="Membership Status" />
+            )}
+          />
+          <StyledAutoComplete
+            disablePortal
+            options={optionsPayment}
+            value={preferredPaymentMethod}
+            onChange={(e, newValue) => setPreferredPaymentMethod(newValue)}
+            renderInput={(params) => (
+              <TextField {...params} label="Preferred Payment Method" />
+            )}
+          />
 
-        <StyledButton type="submit">Add Client</StyledButton>
+          <StyledButton type="submit">Add Client</StyledButton>
 
-        {error && <div className="error">{error}</div>}
-      </StyledFormControl>
-    </form>
+          {error && <div className="error">{error}</div>}
+        </StyledFormControl>
+      </form>
+    </StyledContainer>
   );
 };
 
