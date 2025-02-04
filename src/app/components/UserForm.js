@@ -9,18 +9,52 @@ import { FormControl, FormLabel } from "@mui/material";
 import { styled } from "@mui/system";
 
 const StyledContainer = styled("div")({
-  textAlign: "center",
-  padding: "50px",
-});
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: "20px",
+  minHeight: "100vh",
+})
 
 const StyledFormControl = styled(FormControl)({
-  p: 2,
+  display: "flex",
+  flexDirection: "column",
   alignItems: "center",
-  minWidth: 200,
-  maxWidth: "100%",
-  overflow: "auto",
-  resize: "horizontal",
-});
+  width: "100%",
+  maxWidth: "400px",
+  padding: "20px",
+  boxSizing: "border-box",
+})
+
+const StyledTextField = styled(TextField)({
+  width: "100%",
+  marginBottom: "16px",
+  "& .MuiOutlinedInput-root": {
+    backgroundColor: "#bbdefb",
+    borderRadius: 3,
+  },
+})
+
+const StyledAutoComplete = styled(Autocomplete)({
+  width: "100%",
+  marginBottom: "16px",
+  "& .MuiOutlinedInput-root": {
+    backgroundColor: "#bbdefb",
+    borderRadius: 3,
+  },
+})
+
+const StyledButton = styled(Button)({
+  width: "100%",
+  backgroundColor: "#01579b",
+  color: "white",
+  borderRadius: 6,
+  padding: "12px 0",
+  marginTop: "16px",
+  "&:hover": {
+    backgroundColor: "#014477",
+  },
+})
 
 const StyledFormLabel = styled(FormLabel)({
   width: 500,
@@ -28,32 +62,7 @@ const StyledFormLabel = styled(FormLabel)({
   color: "white",
 });
 
-const StyledTextField = styled(TextField)({
-  width: 500,
-  height: 50,
-  backgroundColor: "#bbdefb",
-  borderRadius: 3,
-  margin: "4px 8px",
-});
-
-const StyledAutoComplete = styled(Autocomplete)({
-  width: 500,
-  height: 50,
-  backgroundColor: "#bbdefb",
-  borderRadius: 3,
-  margin: "4px 8px",
-});
-
-const StyledButton = styled(Button)({
-  width: 200,
-  height: 50,
-  backgroundColor: "#01579b",
-  color: "white",
-  borderRadius: 6,
-  margin: "4px 8px",
-});
-
-const UserForm = () => {
+const UserForm = ({ onClose, fetchData }) => {
   const router = useRouter();
   const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
@@ -118,67 +127,71 @@ const UserForm = () => {
       setError(json.error);
     } else {
       setFirstName("");
+      setFirstName("");
       setLastName("");
       setPhone("");
       setEmail("");
       setPassword("");
       setRole("");
       setError(null);
-      console.log("New user added", json);
+      fetchData();
+      onClose();
     }
   };
 
   return (
-    <form className="createUser" onSubmit={handleSubmit}>
-      <StyledFormControl>
-        <StyledFormLabel>Add New User</StyledFormLabel>
-        <StyledTextField
-          label="First Name"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setFirstName(e.target.value)}
-          value={firstName}
-        />
-        <StyledTextField
-          label="Last Name"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setLastName(e.target.value)}
-          value={lastName}
-        />
-        <StyledTextField
-          label="Phone"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setPhone(e.target.value)}
-          value={phone}
-        />
-        <StyledTextField
-          label="Email"
-          type="text"
-          variant="outlined"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-        <StyledTextField
-          label="Password"
-          type="password"
-          variant="outlined"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
-        <StyledAutoComplete
-          disablePortal
-          options={optionsRole}
-          value={role}
-          onChange={(e, newValue) => setRole(newValue)}
-          renderInput={(params) => <TextField {...params} label="Role" />}
-        />
-        <StyledButton type="submit">Add User</StyledButton>
+    <StyledContainer>
+      <form className="createUser" onSubmit={handleSubmit}>
+        <StyledFormControl>
+          <StyledFormLabel>Add New User</StyledFormLabel>
+          <StyledTextField
+            label="First Name"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setFirstName(e.target.value)}
+            value={firstName}
+          />
+          <StyledTextField
+            label="Last Name"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setLastName(e.target.value)}
+            value={lastName}
+          />
+          <StyledTextField
+            label="Phone"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setPhone(e.target.value)}
+            value={phone}
+          />
+          <StyledTextField
+            label="Email"
+            type="text"
+            variant="outlined"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+          <StyledTextField
+            label="Password"
+            type="password"
+            variant="outlined"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+          <StyledAutoComplete
+            disablePortal
+            options={optionsRole}
+            value={role}
+            onChange={(e, newValue) => setRole(newValue)}
+            renderInput={(params) => <TextField {...params} label="Role" />}
+          />
+          <StyledButton type="submit">Add User</StyledButton>
 
-        {error && <div className="error">{error}</div>}
-      </StyledFormControl>
-    </form>
+          {error && <div className="error">{error}</div>}
+        </StyledFormControl>
+      </form>
+    </StyledContainer>
   );
 };
 

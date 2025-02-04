@@ -30,6 +30,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function VehicleTable({ vehicle, onDelete }) {
+  const handleDelete = (id) => {
+    const confirmDelete = window.confirm("¿Are you sure you want to delete this vehicle?");
+    if (confirmDelete) {
+      onDelete(id);
+    }
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -57,13 +63,10 @@ export default function VehicleTable({ vehicle, onDelete }) {
               <StyledTableCell align="right">{vehicl.register}</StyledTableCell>
               <StyledTableCell align="right">{vehicl.status}</StyledTableCell>
               <StyledTableCell align="right">
-                {vehicl.costPerDay}
-              </StyledTableCell>
-              <StyledTableCell align="right">
                 <IconButton
                   aria-label="delete"
                   color="error"
-                  onClick={() => onDelete(vehicl._id)}
+                  onClick={() => handleDelete(vehicl._id)}
                 >
                   <DeleteIcon />
                 </IconButton>

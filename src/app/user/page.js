@@ -7,18 +7,23 @@ import UserForm from "../components/UserForm";
 import AppbarTest from "../components/AppbarTest";
 import Footer from "../components/Footer";
 import UserTable from "../components/UserTable";
+import { Container, Grid, Paper, Typography, Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import Modal from "@mui/material/Modal";
 
-export default function User() {
+export default function user() {
   const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
-  const goToDashboard = () => {
-    router.push("/dashboard");
-  };
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const fetchData = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      router.push("/");
+      router.push("/login");
       return;
     }
 
@@ -32,13 +37,16 @@ export default function User() {
     }
 
     try {
-      const res = await fetch("https://rentcar-backend.onrender.com/api/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        "https://rentcar-backend.onrender.com/api/user",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const result = await res.json();
       setData(result);
@@ -46,6 +54,7 @@ export default function User() {
       console.error("Error fetching user data:", error);
     }
   };
+
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
 
@@ -78,14 +87,47 @@ export default function User() {
   return (
     <div>
       <AppbarTest />
-      <div className="" style={{ textAlign: "center", padding: "50px" }}>
-        <UserForm />
-        {data.length > 0 ? (
-          <UserTable user={data} onDelete={handleDelete} />
-        ) : (
-          <p>No users found.</p>
-        )}
-      </div>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+              <Typography variant="h6" gutterBottom>
+                Users
+              </Typography>
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={handleOpen}
+                sx={{ mb: 2 }}
+              >
+                Add User
+              </Button>
+              {data.length > 0 ? (
+                <UserTable user={data} onDelete={handleDelete} />
+              ) : (
+                <Typography>No users found.</Typography>
+              )}
+            </Paper>
+          </Grid>
+        </Grid>
+      </Container>
+      <Modal open={open} onClose={handleClose}>
+        <Paper
+          sx={{
+            p: 3,
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "80%",
+            maxWidth: 600,
+            maxHeight: "90vh",
+            overflowY: "auto",
+          }}
+        >
+          <UserForm onClose={handleClose} fetchData={fetchData} />
+        </Paper>
+      </Modal>
       <Footer />
     </div>
   );

@@ -7,19 +7,24 @@ import VehicleForm from "../components/VehicleForm";
 import AppbarTest from "../components/AppbarTest";
 import Footer from "../components/Footer";
 import VehicleTable from "../components/VehicleTable";
+import { Container, Grid, Paper, Typography, Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import Modal from "@mui/material/Modal";
 import VehicleCarousel from "../components/VehicleCarousel";
 
-export default function Vehicle() {
+export default function Client() {
   const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
-  const goToDashboard = () => {
-    router.push("/dashboard");
-  };
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const fetchData = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      router.push("/");
+      router.push("/login");
       return;
     }
 
@@ -50,6 +55,7 @@ export default function Vehicle() {
       console.error("Error fetching vehicle data:", error);
     }
   };
+
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
 
@@ -80,7 +86,7 @@ export default function Vehicle() {
   }, [router]);
 
   return (
-    <div className="vehicle">
+    <div>
       <AppbarTest />
       <div>
         {data.length > 0 ? (
@@ -89,14 +95,47 @@ export default function Vehicle() {
           <p>No vehicles found.</p>
         )}
       </div>
-      <div className="" style={{ textAlign: "center", padding: "50px" }}>
-        <VehicleForm />
-        {data.length > 0 ? (
-          <VehicleTable vehicle={data} onDelete={handleDelete} />
-        ) : (
-          <p>No vehicles found.</p>
-        )}
-      </div>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+              <Typography variant="h6" gutterBottom>
+                Vehicles
+              </Typography>
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={handleOpen}
+                sx={{ mb: 2 }}
+              >
+                Add Vehicle
+              </Button>
+              {data.length > 0 ? (
+                <VehicleTable vehicle={data} onDelete={handleDelete} />
+              ) : (
+                <Typography>No vehicles found.</Typography>
+              )}
+            </Paper>
+          </Grid>
+        </Grid>
+      </Container>
+      <Modal open={open} onClose={handleClose}>
+        <Paper
+          sx={{
+            p: 3,
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "80%",
+            maxWidth: 600,
+            maxHeight: "90vh",
+            overflowY: "auto",
+          }}
+        >
+          <VehicleForm onClose={handleClose} fetchData={fetchData} />
+        </Paper>
+      </Modal>
       <Footer />
     </div>
   );

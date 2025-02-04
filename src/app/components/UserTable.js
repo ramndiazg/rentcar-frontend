@@ -30,6 +30,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function UserTable({ user, onDelete }) {
+  const handleDelete = (id) => {
+    const confirmDelete = window.confirm("¿Are you sure you want to delete this user?");
+    if (confirmDelete) {
+      onDelete(id);
+    }
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -57,7 +63,7 @@ export default function UserTable({ user, onDelete }) {
                 <IconButton
                   aria-label="delete"
                   color="error"
-                  onClick={() => onDelete(usr._id)}
+                  onClick={() => handleDelete(usr._id)}
                 >
                   <DeleteIcon />
                 </IconButton>
