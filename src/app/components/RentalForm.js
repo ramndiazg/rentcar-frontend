@@ -50,22 +50,6 @@ export default function RentForm({
   }, [router]);
 
   useEffect(() => {
-    const fetchVehicleData = async () => {
-      if (selectedVehicle) {
-        try {
-          const response = await fetch(`/api/vehicles/${selectedVehicle._id}`);
-          if (!response.ok) throw new Error("Failed to fetch vehicle data");
-          const data = await response.json();
-          setCostPerDay(data.costPerDay);
-        } catch (error) {
-          console.error("Error fetching vehicle data:", error);
-        }
-      }
-    };
-    fetchVehicleData();
-  }, [selectedVehicle]);
-
-  useEffect(() => {
     if (rentDays && costPerDay) {
       setAmount(rentDays * costPerDay);
     }

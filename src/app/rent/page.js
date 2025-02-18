@@ -4,13 +4,16 @@ import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import AppbarTest from "../components/AppbarTest";
 import Footer from "../components/Footer";
-import SelectClientTable from "../components/SelectClientTable";
-import SelectUserTable from "../components/SelectUserTable";
-import SelectVehicleTable from "../components/SelectVehicleTable";
+// import SelectClientTable from "../components/SelectClientTable";
+// import SelectUserTable from "../components/SelectUserTable";
+// import SelectVehicleTable from "../components/SelectVehicleTable";
 import RentTable from "../components/RentTable";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import RentForm from "../components/RentalForm";
+import SelectClient from "../components/SelectClient";
+import SelectUser from "../components/SelectUser";
+import SelectVehicle from "../components/SelectVehicle";
 
 export default function Rent() {
   const [rentData, setRentData] = useState([]);
@@ -117,63 +120,26 @@ export default function Rent() {
           backgroundColor: "#f9f9f9",
         }}
       >
-        <Box
-          sx={{
-            flex: 1,
-            maxHeight: "400px",
-            overflowY: "auto",
-            padding: 2,
-            border: "1px solid #ddd",
-            borderRadius: 2,
-            backgroundColor: "white",
-          }}
-        >
-          {clientData.length > 0 ? (
-            <SelectClientTable
-              clients={clientData}
-              onSelect={handleSelectClient}
-            />
-          ) : (
-            <Typography>No clients found.</Typography>
-          )}
+        <Box sx={{ flex: 1 }}>
+          <SelectClient
+            clients={clientData}
+            selectedClient={selectedClient}
+            onSelect={handleSelectClient}
+          />
         </Box>
-
-        <Box
-          sx={{
-            flex: 1,
-            maxHeight: "400px",
-            overflowY: "auto",
-            padding: 2,
-            border: "1px solid #ddd",
-            borderRadius: 2,
-            backgroundColor: "white",
-          }}
-        >
-          {vehicleData.length > 0 ? (
-            <SelectVehicleTable
-              vehicles={vehicleData}
-              onSelect={handleSelectVehicle}
-            />
-          ) : (
-            <Typography>No vehicles found.</Typography>
-          )}
+        <Box sx={{ flex: 1 }}>
+          <SelectVehicle
+            vehicles={vehicleData}
+            selectedVehicle={selectedVehicle}
+            onSelect={handleSelectVehicle}
+          />
         </Box>
-        <Box
-          sx={{
-            flex: 1,
-            maxHeight: "400px",
-            overflowY: "auto",
-            padding: 2,
-            border: "1px solid #ddd",
-            borderRadius: 2,
-            backgroundColor: "white",
-          }}
-        >
-          {userData.length > 0 ? (
-            <SelectUserTable users={userData} onSelect={handleSelectUser} />
-          ) : (
-            <Typography>No users found.</Typography>
-          )}
+        <Box sx={{ flex: 1 }}>
+          <SelectUser
+            users={userData}
+            selectedUser={selectedUser}
+            onSelect={handleSelectUser}
+          />
         </Box>
       </Box>
       <Box sx={{ marginTop: 2 }}>
