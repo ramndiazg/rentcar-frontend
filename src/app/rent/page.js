@@ -110,14 +110,13 @@ export default function Rent() {
           flexDirection: { xs: "column", md: "row" },
           gap: 4,
           justifyContent: "center",
-          alignItems: "stretch", // Asegura que ambas tarjetas tengan la misma altura
+          alignItems: "stretch",
           margin: 4,
           padding: 2,
           backgroundColor: "#f9f9f9",
           borderRadius: 4,
         }}
       >
-        {/* Tarjeta del RentForm */}
         <Box
           sx={{
             flex: 1,
@@ -138,7 +137,6 @@ export default function Rent() {
           />
         </Box>
 
-        {/* Tarjeta de los selects */}
         <Box
           sx={{
             flex: 1,
@@ -150,10 +148,9 @@ export default function Rent() {
             backgroundColor: "#fff",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between", // Distribuye el espacio uniformemente
+            justifyContent: "space-between",
           }}
         >
-          {/* Fila de selects */}
           <Box
             sx={{
               display: "flex",
@@ -186,7 +183,6 @@ export default function Rent() {
             </Box>
           </Box>
 
-          {/* Fila de typografías */}
           <Box
             sx={{
               display: "flex",
@@ -228,12 +224,10 @@ export default function Rent() {
         </Box>
       </Box>
 
-      {/* RentTable */}
       <Box sx={{ margin: 2 }}>
         <RentTable rent={rentData} />
       </Box>
 
-      {/* Footer */}
       <Footer />
     </div>
   );
