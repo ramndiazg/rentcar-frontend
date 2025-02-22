@@ -28,23 +28,23 @@ export default function Rent() {
   const handleSelectVehicle = (vehicle) => setSelectedVehicle(vehicle);
 
   useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+    if (!token) {
+      router.push("/");
+      return;
+    }
+
+    const decodedToken = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
+
+    if (decodedToken.exp < currentTime) {
+      localStorage.removeItem("token");
+      router.push("/login");
+      return;
+    }
+
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        router.push("/");
-        return;
-      }
-
-      const decodedToken = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
-
-      if (decodedToken.exp < currentTime) {
-        localStorage.removeItem("token");
-        router.push("/login");
-        return;
-      }
-
       try {
         const clientRes = await fetch(
           "https://rentcar-backend.onrender.com/api/client",
