@@ -11,7 +11,7 @@ import RentForm from "../components/RentalForm";
 import SelectClient from "../components/SelectClient";
 import SelectUser from "../components/SelectUser";
 import SelectVehicle from "../components/SelectVehicle";
-import { Person, DirectionsCar, CalendarToday, AttachMoney } from "@mui/icons-material";
+import { Person, DirectionsCar } from "@mui/icons-material";
 
 export default function Rent() {
   const [rentData, setRentData] = useState([]);
@@ -110,13 +110,14 @@ export default function Rent() {
           flexDirection: { xs: "column", md: "row" },
           gap: 4,
           justifyContent: "center",
-          alignItems: "flex-start",
+          alignItems: "stretch", // Asegura que ambas tarjetas tengan la misma altura
           margin: 4,
           padding: 2,
           backgroundColor: "#f9f9f9",
           borderRadius: 4,
         }}
       >
+        {/* Tarjeta del RentForm */}
         <Box
           sx={{
             flex: 1,
@@ -126,6 +127,8 @@ export default function Rent() {
             border: "1px solid #ccc",
             borderRadius: 4,
             backgroundColor: "#fff",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <RentForm
@@ -135,20 +138,22 @@ export default function Rent() {
           />
         </Box>
 
+        {/* Tarjeta de los selects */}
         <Box
           sx={{
             flex: 1,
             width: "100%",
             maxWidth: { md: "50%" },
-            display: "flex",
-            flexDirection: "column",
-            gap: 4,
             padding: 2,
             border: "1px solid #ccc",
             borderRadius: 4,
             backgroundColor: "#fff",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between", // Distribuye el espacio uniformemente
           }}
         >
+          {/* Fila de selects */}
           <Box
             sx={{
               display: "flex",
@@ -181,6 +186,7 @@ export default function Rent() {
             </Box>
           </Box>
 
+          {/* Fila de typografías */}
           <Box
             sx={{
               display: "flex",
@@ -209,7 +215,7 @@ export default function Rent() {
               </Typography>
             </Box>
 
-            <Box sx={{ flex: 1, color: "black"}}>
+            <Box sx={{ flex: 1, color: "black" }}>
               <Typography variant="body1" fontWeight="bold">
                 <Person fontSize="small" sx={{ mr: 1 }} />
                 Selected User:
@@ -222,10 +228,12 @@ export default function Rent() {
         </Box>
       </Box>
 
+      {/* RentTable */}
       <Box sx={{ margin: 2 }}>
         <RentTable rent={rentData} />
       </Box>
 
+      {/* Footer */}
       <Footer />
     </div>
   );
