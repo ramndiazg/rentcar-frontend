@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid2, TextField, Typography, Paper } from "@mui/material";
+import { Box, Grid, TextField, Typography, Paper, Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const VehicleCard = styled(Paper)(({ theme, image }) => ({
   position: "relative",
-  height: "200px",
-  width: "430px",
+  height: "250px",
+  width: "100%",
   backgroundSize: "cover",
   backgroundPosition: "center",
   backgroundImage: `url(${image})`,
@@ -15,6 +15,11 @@ const VehicleCard = styled(Paper)(({ theme, image }) => ({
   justifyContent: "flex-end",
   padding: theme.spacing(2),
   textShadow: "0px 0px 5px rgba(0, 0, 0, 0.8)",
+  borderRadius: "10px",
+  transition: "transform 0.3s ease-in-out",
+  "&:hover": {
+    transform: "scale(1.05)",
+  },
 }));
 
 export default function Home() {
@@ -43,25 +48,23 @@ export default function Home() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1, padding: "20px" }}>
+    <Container sx={{ flexGrow: 1, padding: "20px" }}>
       <Box sx={{ textAlign: "center", marginBottom: "20px" }}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold", color: "#1c65b3" }}>
           Welcome to Our Vehicle Rental Service
         </Typography>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom sx={{ color: "#666" }}>
           Find the perfect vehicle for your next adventure!
         </Typography>
       </Box>
 
-      <Box sx={{ marginBottom: "20px", color: "white" }}>
-        <Typography variant="h8" gutterBottom>
-          Search vehicles by make
-        </Typography>
+      <Box sx={{ marginBottom: "20px" }}>
         <TextField
           variant="outlined"
           fullWidth
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search vehicles by make"
           InputProps={{
             style: { backgroundColor: "white", color: "black" },
           }}
@@ -70,13 +73,13 @@ export default function Home() {
       </Box>
 
       <Box>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold", color: "#1c65b3" }}>
           Available Vehicles
         </Typography>
         {filteredVehicles.length > 0 ? (
-          <Grid2 container spacing={2}>
+          <Grid container spacing={3}>
             {filteredVehicles.map((vehicle) => (
-              <Grid2 key={vehicle._id} item xs={12} sm={6} md={4}>
+              <Grid key={vehicle._id} item xs={12} sm={6} md={4}>
                 <VehicleCard image={vehicle.imageUrl}>
                   <Typography variant="h6">
                     {vehicle.make} {vehicle.model}
@@ -85,13 +88,13 @@ export default function Home() {
                   <Typography>Status: {vehicle.status}</Typography>
                   <Typography>Cost: {vehicle.costPerDay}</Typography>
                 </VehicleCard>
-              </Grid2>
+              </Grid>
             ))}
-          </Grid2>
+          </Grid>
         ) : (
           <Typography>No vehicles found matching your search.</Typography>
         )}
       </Box>
-    </Box>
+    </Container>
   );
 }

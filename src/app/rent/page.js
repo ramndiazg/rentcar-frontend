@@ -4,9 +4,6 @@ import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import AppbarTest from "../components/AppbarTest";
 import Footer from "../components/Footer";
-// import SelectClientTable from "../components/SelectClientTable";
-// import SelectUserTable from "../components/SelectUserTable";
-// import SelectVehicleTable from "../components/SelectVehicleTable";
 import RentTable from "../components/RentTable";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -14,6 +11,7 @@ import RentForm from "../components/RentalForm";
 import SelectClient from "../components/SelectClient";
 import SelectUser from "../components/SelectUser";
 import SelectVehicle from "../components/SelectVehicle";
+import { Person, DirectionsCar, CalendarToday, AttachMoney } from "@mui/icons-material";
 
 export default function Rent() {
   const [rentData, setRentData] = useState([]);
@@ -115,56 +113,119 @@ export default function Rent() {
           alignItems: "flex-start",
           margin: 4,
           padding: 2,
-          border: "1px solid #ccc",
-          borderRadius: 4,
           backgroundColor: "#f9f9f9",
+          borderRadius: 4,
         }}
       >
-        <Box sx={{ flex: 1 }}>
-          <SelectClient
-            clients={clientData}
-            selectedClient={selectedClient}
-            onSelect={handleSelectClient}
+        <Box
+          sx={{
+            flex: 1,
+            width: "100%",
+            maxWidth: { md: "50%" },
+            padding: 2,
+            border: "1px solid #ccc",
+            borderRadius: 4,
+            backgroundColor: "#fff",
+          }}
+        >
+          <RentForm
+            selectedClient={selectedClient?._id || "None"}
+            selectedUser={selectedUser?._id || "None"}
+            selectedVehicle={selectedVehicle?._id || "None"}
           />
         </Box>
-        <Box sx={{ flex: 1 }}>
-          <SelectVehicle
-            vehicles={vehicleData}
-            selectedVehicle={selectedVehicle}
-            onSelect={handleSelectVehicle}
-          />
+
+        <Box
+          sx={{
+            flex: 1,
+            width: "100%",
+            maxWidth: { md: "50%" },
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
+            padding: 2,
+            border: "1px solid #ccc",
+            borderRadius: 4,
+            backgroundColor: "#fff",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              gap: 4,
+            }}
+          >
+            <Box sx={{ flex: 1 }}>
+              <SelectClient
+                clients={clientData}
+                selectedClient={selectedClient}
+                onSelect={handleSelectClient}
+              />
+            </Box>
+
+            <Box sx={{ flex: 1 }}>
+              <SelectVehicle
+                vehicles={vehicleData}
+                selectedVehicle={selectedVehicle}
+                onSelect={handleSelectVehicle}
+              />
+            </Box>
+
+            <Box sx={{ flex: 1 }}>
+              <SelectUser
+                users={userData}
+                selectedUser={selectedUser}
+                onSelect={handleSelectUser}
+              />
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              gap: 4,
+              marginTop: 2,
+            }}
+          >
+            <Box sx={{ flex: 1, color: "black" }}>
+              <Typography variant="body1" fontWeight="bold">
+                <Person fontSize="small" sx={{ mr: 1 }} />
+                Selected Client:
+              </Typography>
+              <Typography variant="body1">
+                {selectedClient?.firstName || "None"}
+              </Typography>
+            </Box>
+
+            <Box sx={{ flex: 1, color: "black" }}>
+              <Typography variant="body1" fontWeight="bold">
+                <DirectionsCar fontSize="small" sx={{ mr: 1 }} />
+                Selected Vehicle:
+              </Typography>
+              <Typography variant="body1">
+                {selectedVehicle?.make || "None"}
+              </Typography>
+            </Box>
+
+            <Box sx={{ flex: 1, color: "black"}}>
+              <Typography variant="body1" fontWeight="bold">
+                <Person fontSize="small" sx={{ mr: 1 }} />
+                Selected User:
+              </Typography>
+              <Typography variant="body1">
+                {selectedUser?.firstName || "None"}
+              </Typography>
+            </Box>
+          </Box>
         </Box>
-        <Box sx={{ flex: 1 }}>
-          <SelectUser
-            users={userData}
-            selectedUser={selectedUser}
-            onSelect={handleSelectUser}
-          />
-        </Box>
       </Box>
-      <Box sx={{ marginTop: 2 }}>
-        <Typography variant="body1">
-          Selected Client: {selectedClient?.firstName || "None"}
-        </Typography>
-        <Typography variant="body1">
-          Selected User: {selectedUser?.firstName || "None"}
-        </Typography>
-        <Typography variant="body1">
-          Selected Vehicle: {selectedVehicle?.make || "None"}
-        </Typography>
-      </Box>
-      <Box
-        sx={{ margin: 2, backgroundColor: "#333", padding: 2, borderRadius: 2 }}
-      >
-        <RentForm
-          selectedClient={selectedClient?._id || "None"}
-          selectedUser={selectedUser?._id || "None"}
-          selectedVehicle={selectedVehicle?._id || "None"}
-        />
-      </Box>
+
       <Box sx={{ margin: 2 }}>
         <RentTable rent={rentData} />
       </Box>
+
       <Footer />
     </div>
   );

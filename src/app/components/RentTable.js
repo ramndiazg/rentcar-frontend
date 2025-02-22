@@ -11,8 +11,9 @@ import Button from "@mui/material/Button";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#01579b",
     color: theme.palette.common.white,
+    fontWeight: "bold",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -30,10 +31,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function RentTable({ rent }) {
   const token = localStorage.getItem("token");
-  if (!token) {
-    alert("No estás autenticado");
-    return;
-  }
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [selectedRent, setSelectedRent] = React.useState(null);
+
+  const handleMenuOpen = (event, rent) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedRent(rent);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedRent(null);
+  };
+
   const handleComplete = async (id) => {
     try {
       const response = await fetch("https://rentcar-backend.onrender.com/api/returnVehicle", {
@@ -58,7 +68,7 @@ export default function RentTable({ rent }) {
   };
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ borderRadius: "12px", boxShadow: 3 }}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>

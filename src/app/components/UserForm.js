@@ -5,7 +5,7 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
-import { FormControl, FormLabel } from "@mui/material";
+import { FormControl, FormLabel, Card, CardHeader, CardContent, CardActions } from "@mui/material";
 import { styled } from "@mui/system";
 
 const StyledContainer = styled("div")({
@@ -14,52 +14,50 @@ const StyledContainer = styled("div")({
   alignItems: "center",
   padding: "20px",
   minHeight: "100vh",
-})
+  backgroundColor: "#f5f5f5",
+});
 
-const StyledFormControl = styled(FormControl)({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
+const StyledCard = styled(Card)({
   width: "100%",
-  maxWidth: "400px",
-  padding: "20px",
-  boxSizing: "border-box",
-})
+  maxWidth: "500px",
+  borderRadius: "12px",
+  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+});
+
+const StyledCardHeader = styled(CardHeader)({
+  backgroundColor: "#01579b",
+  color: "white",
+  borderTopLeftRadius: "12px",
+  borderTopRightRadius: "12px",
+  textAlign: "center",
+});
 
 const StyledTextField = styled(TextField)({
   width: "100%",
   marginBottom: "16px",
   "& .MuiOutlinedInput-root": {
-    backgroundColor: "#bbdefb",
-    borderRadius: 3,
+    borderRadius: "8px",
   },
-})
+});
 
 const StyledAutoComplete = styled(Autocomplete)({
   width: "100%",
   marginBottom: "16px",
   "& .MuiOutlinedInput-root": {
-    backgroundColor: "#bbdefb",
-    borderRadius: 3,
+    borderRadius: "8px",
   },
-})
+});
 
 const StyledButton = styled(Button)({
   width: "100%",
   backgroundColor: "#01579b",
   color: "white",
-  borderRadius: 6,
+  borderRadius: "8px",
   padding: "12px 0",
   marginTop: "16px",
   "&:hover": {
     backgroundColor: "#014477",
   },
-})
-
-const StyledFormLabel = styled(FormLabel)({
-  width: 500,
-  height: 50,
-  color: "white",
 });
 
 const UserForm = ({ onClose, fetchData }) => {
@@ -127,7 +125,6 @@ const UserForm = ({ onClose, fetchData }) => {
       setError(json.error);
     } else {
       setFirstName("");
-      setFirstName("");
       setLastName("");
       setPhone("");
       setEmail("");
@@ -141,56 +138,59 @@ const UserForm = ({ onClose, fetchData }) => {
 
   return (
     <StyledContainer>
-      <form className="createUser" onSubmit={handleSubmit}>
-        <StyledFormControl>
-          <StyledFormLabel>Add New User</StyledFormLabel>
-          <StyledTextField
-            label="First Name"
-            type="text"
-            variant="outlined"
-            onChange={(e) => setFirstName(e.target.value)}
-            value={firstName}
-          />
-          <StyledTextField
-            label="Last Name"
-            type="text"
-            variant="outlined"
-            onChange={(e) => setLastName(e.target.value)}
-            value={lastName}
-          />
-          <StyledTextField
-            label="Phone"
-            type="text"
-            variant="outlined"
-            onChange={(e) => setPhone(e.target.value)}
-            value={phone}
-          />
-          <StyledTextField
-            label="Email"
-            type="text"
-            variant="outlined"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
-          <StyledTextField
-            label="Password"
-            type="password"
-            variant="outlined"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-          />
-          <StyledAutoComplete
-            disablePortal
-            options={optionsRole}
-            value={role}
-            onChange={(e, newValue) => setRole(newValue)}
-            renderInput={(params) => <TextField {...params} label="Role" />}
-          />
-          <StyledButton type="submit">Add User</StyledButton>
-
-          {error && <div className="error">{error}</div>}
-        </StyledFormControl>
-      </form>
+      <StyledCard>
+        <StyledCardHeader title="Add New User" />
+        <CardContent>
+          <form className="createUser" onSubmit={handleSubmit}>
+            <FormControl fullWidth>
+              <StyledTextField
+                label="First Name"
+                type="text"
+                variant="outlined"
+                onChange={(e) => setFirstName(e.target.value)}
+                value={firstName}
+              />
+              <StyledTextField
+                label="Last Name"
+                type="text"
+                variant="outlined"
+                onChange={(e) => setLastName(e.target.value)}
+                value={lastName}
+              />
+              <StyledTextField
+                label="Phone"
+                type="text"
+                variant="outlined"
+                onChange={(e) => setPhone(e.target.value)}
+                value={phone}
+              />
+              <StyledTextField
+                label="Email"
+                type="text"
+                variant="outlined"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+              />
+              <StyledTextField
+                label="Password"
+                type="password"
+                variant="outlined"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
+              <StyledAutoComplete
+                disablePortal
+                options={optionsRole}
+                value={role}
+                onChange={(e, newValue) => setRole(newValue)}
+                renderInput={(params) => <TextField {...params} label="Role" />}
+              />
+              <StyledButton type="submit">Add User</StyledButton>
+              {error && <div className="error">{error}</div>}
+            </FormControl>
+          </form>
+        </CardContent>
+      </StyledCard>
     </StyledContainer>
   );
 };

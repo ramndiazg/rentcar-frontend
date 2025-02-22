@@ -2,18 +2,21 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Menu, MenuItem } from "@mui/material";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#01579b",
     color: theme.palette.common.white,
+    fontWeight: "bold",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -30,19 +33,34 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function UserTable({ user, onDelete }) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [selectedUser, setSelectedUser] = React.useState(null);
+
+  const handleMenuOpen = (event, user) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedUser(user);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedUser(null);
+  };
+
   const handleDelete = (id) => {
-    const confirmDelete = window.confirm("¿Are you sure you want to delete this user?");
+    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
     if (confirmDelete) {
       onDelete(id);
     }
+    handleMenuClose();
   };
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ borderRadius: "12px", boxShadow: 3 }}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Users</StyledTableCell>
-            <StyledTableCell align="right">LastName</StyledTableCell>
+            <StyledTableCell>First Name</StyledTableCell>
+            <StyledTableCell align="right">Last Name</StyledTableCell>
             <StyledTableCell align="right">Phone</StyledTableCell>
             <StyledTableCell align="right">Email</StyledTableCell>
             <StyledTableCell align="right">Role</StyledTableCell>
@@ -61,12 +79,24 @@ export default function UserTable({ user, onDelete }) {
               <StyledTableCell align="right">{usr.role}</StyledTableCell>
               <StyledTableCell align="right">
                 <IconButton
-                  aria-label="delete"
-                  color="error"
-                  onClick={() => handleDelete(usr._id)}
+                  aria-label="more"
+                  aria-controls="user-menu"
+                  aria-haspopup="true"
+                  onClick={(e) => handleMenuOpen(e, usr)}
                 >
-                  <DeleteIcon />
+                  <MoreVertIcon />
                 </IconButton>
+                <Menu
+                  id="user-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem onClick={() => handleDelete(selectedUser._id)}>
+                    <DeleteIcon sx={{ mr: 1 }} /> Delete
+                  </MenuItem>
+                </Menu>
               </StyledTableCell>
             </StyledTableRow>
           ))}
