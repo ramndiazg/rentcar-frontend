@@ -12,10 +12,10 @@ function Footer() {
         py: 3,
         px: 3,
         mt: "auto",
-        backgroundColor: "#2196f3",
+        backgroundColor: "#1c65b3",
         color: "white",
         width: "100%",
-        height: "60px",
+        height: "auto",
         position: "sticky",
         top: "100vh",
       }}
@@ -26,6 +26,8 @@ function Footer() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          flexDirection: { xs: "column", sm: "row" },
+          gap: 2,
         }}
       >
         <Typography variant="body2">

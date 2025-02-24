@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
+import { Card, CardHeader, CardContent } from "@mui/material";
+import { Person, DirectionsCar, CalendarToday, AttachMoney } from "@mui/icons-material";
 
-const FormContainer = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  padding: theme.spacing(4),
-  borderRadius: theme.shape.borderRadius,
+const FormContainer = styled(Card)(({ theme }) => ({
+  width: "100%",
+  maxWidth: "500px",
+  borderRadius: "12px",
   boxShadow: theme.shadows[3],
-  display: "flex",
-  flexDirection: "column",
-  gap: theme.spacing(2),
-  color: "#fff",
+  backgroundColor: theme.palette.background.paper,
 }));
 
 export default function RentForm({
@@ -48,22 +45,6 @@ export default function RentForm({
 
     setToken(tokenStored);
   }, [router]);
-
-  useEffect(() => {
-    const fetchVehicleData = async () => {
-      if (selectedVehicle) {
-        try {
-          const response = await fetch(`/api/vehicles/${selectedVehicle._id}`);
-          if (!response.ok) throw new Error("Failed to fetch vehicle data");
-          const data = await response.json();
-          setCostPerDay(data.costPerDay);
-        } catch (error) {
-          console.error("Error fetching vehicle data:", error);
-        }
-      }
-    };
-    fetchVehicleData();
-  }, [selectedVehicle]);
 
   useEffect(() => {
     if (rentDays && costPerDay) {
@@ -118,36 +99,34 @@ export default function RentForm({
 
   return (
     <FormContainer>
-      <Typography variant="h6">Create Rent</Typography>
-      <Typography>
-        User ID: {selectedUser?.firstName || "Not selected"}
-      </Typography>
-      <Typography>
-        Client ID: {selectedClient?.firstName || "Not selected"}
-      </Typography>
-      <Typography>
-        Vehicle ID: {selectedVehicle?.make || "Not selected"}
-      </Typography>
-      <TextField
-        label="Rent Days"
-        type="number"
-        value={rentDays}
-        onChange={(e) => setRentDays(Number(e.target.value))}
-        fullWidth
-        InputProps={{
-          inputProps: { min: 1 },
-        }}
-        sx={{ backgroundColor: "#fff", borderRadius: 1 }}
+      <CardHeader
+        title="Create Rent"
+        sx={{ backgroundColor: "#01579b", color: "white" }}
       />
-      <Typography>Amount: {amount}</Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleSubmit}
-        disabled={loading}
-      >
-        {loading ? "Creating..." : "Create Rent"}
-      </Button>
+      <CardContent>
+        <TextField
+          label="Rent Days"
+          type="number"
+          value={rentDays}
+          onChange={(e) => setRentDays(Number(e.target.value))}
+          fullWidth
+          InputProps={{
+            inputProps: { min: 1 },
+            startAdornment: <CalendarToday fontSize="small" sx={{ mr: 1 }} />,
+          }}
+          sx={{ mb: 2 }}
+        />
+        
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+          disabled={loading}
+          fullWidth
+        >
+          {loading ? "Creating..." : "Create Rent"}
+        </Button>
+      </CardContent>
     </FormContainer>
   );
 }

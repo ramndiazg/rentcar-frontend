@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -23,25 +22,36 @@ export default function Appbar() {
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: "#1c65b3" }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          ></IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: "bold" }}>
             RentCar App
           </Typography>
           {!token && (
-            <Button onClick={goToLogin} color="inherit">
+            <Button 
+              onClick={goToLogin} 
+              color="inherit"
+              sx={{ 
+                backgroundColor: "white", 
+                color: "#1c65b3", 
+                fontWeight: "bold", 
+                "&:hover": { backgroundColor: "#f5f5f5" } 
+              }}
+            >
               Login
             </Button>
           )}
           {token && (
-            <Button onClick={goToDashboard} color="inherit">
+            <Button 
+              onClick={goToDashboard} 
+              color="inherit"
+              sx={{ 
+                backgroundColor: "white", 
+                color: "#1c65b3", 
+                fontWeight: "bold", 
+                "&:hover": { backgroundColor: "#f5f5f5" } 
+              }}
+            >
               Dashboard
             </Button>
           )}

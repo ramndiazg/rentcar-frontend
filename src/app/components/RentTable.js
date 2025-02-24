@@ -7,11 +7,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#01579b",
     color: theme.palette.common.white,
+    fontWeight: "bold",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -28,9 +30,45 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function RentTable({ rent }) {
- 
+  const token = localStorage.getItem("token");
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [selectedRent, setSelectedRent] = React.useState(null);
+
+  const handleMenuOpen = (event, rent) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedRent(rent);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedRent(null);
+  };
+
+  const handleComplete = async (id) => {
+    try {
+      const response = await fetch("https://rentcar-backend.onrender.com/api/returnVehicle", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rentId: id }),
+      });
+
+      if (response.ok) {
+        alert("Renta completada exitosamente");
+        window.location.reload();
+      } else {
+        alert("Error al completar la renta");
+      }
+    } catch (error) {
+      console.error("Error en la petición:", error);
+      alert("Hubo un problema con la solicitud");
+    }
+  };
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ borderRadius: "12px", boxShadow: 3 }}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -40,21 +78,33 @@ export default function RentTable({ rent }) {
             <StyledTableCell align="right">Rent Days</StyledTableCell>
             <StyledTableCell align="right">Amount</StyledTableCell>
             <StyledTableCell align="right">Status</StyledTableCell>
+            <StyledTableCell align="right">Actions</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rent.map((rnt) => (
-            <StyledTableRow key={rnt._id}>
-              <StyledTableCell component="th" scope="row">
-                {rnt.client}
-              </StyledTableCell>
-              <StyledTableCell align="right">{rnt.vehicle}</StyledTableCell>
-              <StyledTableCell align="right">{rnt.user}</StyledTableCell>
-              <StyledTableCell align="right">{rnt.rentDays}</StyledTableCell>
-              <StyledTableCell align="right">{rnt.rentAmount}</StyledTableCell>
-              <StyledTableCell align="right">{rnt.rentStatus}</StyledTableCell>
-            </StyledTableRow>
-          ))}
+          {rent
+            .filter((rnt) => rnt.rentStatus !== "completed")
+            .map((rnt) => (
+              <StyledTableRow key={rnt._id}>
+                <StyledTableCell component="th" scope="row">
+                  {rnt.client}
+                </StyledTableCell>
+                <StyledTableCell align="right">{rnt.vehicle}</StyledTableCell>
+                <StyledTableCell align="right">{rnt.user}</StyledTableCell>
+                <StyledTableCell align="right">{rnt.rentDays}</StyledTableCell>
+                <StyledTableCell align="right">{rnt.rentAmount}</StyledTableCell>
+                <StyledTableCell align="right">{rnt.rentStatus}</StyledTableCell>
+                <StyledTableCell align="right">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleComplete(rnt._id)}
+                  >
+                    Completar
+                  </Button>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>

@@ -5,8 +5,9 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
-import { FormControl, FormLabel } from "@mui/material";
+import { FormControl, FormLabel, Card, CardHeader, CardContent, Typography } from "@mui/material";
 import { styled } from "@mui/system";
+import { Person, Phone, Email, Home, Payment, Star } from "@mui/icons-material";
 
 const StyledContainer = styled("div")({
   display: "flex",
@@ -14,52 +15,50 @@ const StyledContainer = styled("div")({
   alignItems: "center",
   padding: "20px",
   minHeight: "100vh",
-})
+  backgroundColor: "#f5f5f5",
+});
 
-const StyledFormControl = styled(FormControl)({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
+const StyledCard = styled(Card)({
   width: "100%",
-  maxWidth: "400px",
-  padding: "20px",
-  boxSizing: "border-box",
-})
+  maxWidth: "500px",
+  borderRadius: "12px",
+  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+});
+
+const StyledCardHeader = styled(CardHeader)({
+  backgroundColor: "#01579b",
+  color: "white",
+  borderTopLeftRadius: "12px",
+  borderTopRightRadius: "12px",
+  textAlign: "center",
+});
 
 const StyledTextField = styled(TextField)({
   width: "100%",
   marginBottom: "16px",
   "& .MuiOutlinedInput-root": {
-    backgroundColor: "#bbdefb",
-    borderRadius: 3,
+    borderRadius: "8px",
   },
-})
+});
 
 const StyledAutoComplete = styled(Autocomplete)({
   width: "100%",
   marginBottom: "16px",
   "& .MuiOutlinedInput-root": {
-    backgroundColor: "#bbdefb",
-    borderRadius: 3,
+    borderRadius: "8px",
   },
-})
+});
 
 const StyledButton = styled(Button)({
   width: "100%",
   backgroundColor: "#01579b",
   color: "white",
-  borderRadius: 6,
+  borderRadius: "8px",
   padding: "12px 0",
   marginTop: "16px",
   "&:hover": {
     backgroundColor: "#014477",
   },
-})
-
-const StyledFormLabel = styled(FormLabel)({
-  width: 500,
-  height: 50,
-  color: "white",
 });
 
 const ClientForm = ({ onClose, fetchData }) => {
@@ -144,68 +143,99 @@ const ClientForm = ({ onClose, fetchData }) => {
 
   return (
     <StyledContainer>
-      <form className="createClient" onSubmit={handleSubmit}>
-        <StyledFormControl>
-          <StyledFormLabel>Add New Client</StyledFormLabel>
-          <StyledTextField
-            label="First Name"
-            type="text"
-            variant="outlined"
-            onChange={(e) => setFirstName(e.target.value)}
-            value={firstName}
-          />
-          <StyledTextField
-            label="Last Name"
-            type="text"
-            variant="outlined"
-            onChange={(e) => setLastName(e.target.value)}
-            value={lastName}
-          />
-          <StyledTextField
-            label="Phone"
-            type="text"
-            variant="outlined"
-            onChange={(e) => setPhone(e.target.value)}
-            value={phone}
-          />
-          <StyledTextField
-            label="Email"
-            type="text"
-            variant="outlined"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
-          <StyledTextField
-            label="Address"
-            type="text"
-            variant="outlined"
-            onChange={(e) => setAddress(e.target.value)}
-            value={address}
-          />
-          <StyledAutoComplete
-            disablePortal
-            options={optionsStatus}
-            value={membershipStatus}
-            onChange={(e, newValue) => setMembershipStatus(newValue)}
-            renderInput={(params) => (
-              <TextField {...params} label="Membership Status" />
-            )}
-          />
-          <StyledAutoComplete
-            disablePortal
-            options={optionsPayment}
-            value={preferredPaymentMethod}
-            onChange={(e, newValue) => setPreferredPaymentMethod(newValue)}
-            renderInput={(params) => (
-              <TextField {...params} label="Preferred Payment Method" />
-            )}
-          />
-
-          <StyledButton type="submit">Add Client</StyledButton>
-
-          {error && <div className="error">{error}</div>}
-        </StyledFormControl>
-      </form>
+      <StyledCard>
+        <StyledCardHeader title="Add New Client" />
+        <CardContent>
+          <form className="createClient" onSubmit={handleSubmit}>
+            <FormControl fullWidth>
+              <StyledTextField
+                label="First Name"
+                type="text"
+                variant="outlined"
+                onChange={(e) => setFirstName(e.target.value)}
+                value={firstName}
+                InputProps={{
+                  startAdornment: <Person fontSize="small" sx={{ mr: 1 }} />,
+                }}
+              />
+              <StyledTextField
+                label="Last Name"
+                type="text"
+                variant="outlined"
+                onChange={(e) => setLastName(e.target.value)}
+                value={lastName}
+                InputProps={{
+                  startAdornment: <Person fontSize="small" sx={{ mr: 1 }} />,
+                }}
+              />
+              <StyledTextField
+                label="Phone"
+                type="text"
+                variant="outlined"
+                onChange={(e) => setPhone(e.target.value)}
+                value={phone}
+                InputProps={{
+                  startAdornment: <Phone fontSize="small" sx={{ mr: 1 }} />,
+                }}
+              />
+              <StyledTextField
+                label="Email"
+                type="text"
+                variant="outlined"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                InputProps={{
+                  startAdornment: <Email fontSize="small" sx={{ mr: 1 }} />,
+                }}
+              />
+              <StyledTextField
+                label="Address"
+                type="text"
+                variant="outlined"
+                onChange={(e) => setAddress(e.target.value)}
+                value={address}
+                InputProps={{
+                  startAdornment: <Home fontSize="small" sx={{ mr: 1 }} />,
+                }}
+              />
+              <StyledAutoComplete
+                disablePortal
+                options={optionsStatus}
+                value={membershipStatus}
+                onChange={(e, newValue) => setMembershipStatus(newValue)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Membership Status"
+                    InputProps={{
+                      ...params.InputProps,
+                      startAdornment: <Star fontSize="small" sx={{ mr: 1 }} />,
+                    }}
+                  />
+                )}
+              />
+              <StyledAutoComplete
+                disablePortal
+                options={optionsPayment}
+                value={preferredPaymentMethod}
+                onChange={(e, newValue) => setPreferredPaymentMethod(newValue)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Preferred Payment Method"
+                    InputProps={{
+                      ...params.InputProps,
+                      startAdornment: <Payment fontSize="small" sx={{ mr: 1 }} />,
+                    }}
+                  />
+                )}
+              />
+              <StyledButton type="submit">Add Client</StyledButton>
+              {error && <Typography color="error">{error}</Typography>}
+            </FormControl>
+          </form>
+        </CardContent>
+      </StyledCard>
     </StyledContainer>
   );
 };
